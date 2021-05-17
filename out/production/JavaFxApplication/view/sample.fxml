@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="858.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerMenu">
+   <children>
+      <AnchorPane prefHeight="118.0" prefWidth="858.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="276.0" layoutY="32.0" prefHeight="70.0" prefWidth="383.0" text="Zombie Dice" textFill="#ff9f1c" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="199.0">
+               <font>
+                  <Font name="Liberation Mono" size="55.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="42.0" layoutY="201.0" prefHeight="88.0" prefWidth="792.0" text="texte de bienvenue choisie le nombre de joueur et la difficulté t&quot;inquiete sa va bien se passer etc ..." textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <font>
+            <Font name="Liberation Mono" size="23.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="45.0" layoutY="289.0" prefHeight="274.0" prefWidth="297.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="45.0">
+         <children>
+            <Button layoutX="175.0" layoutY="65.0" mnemonicParsing="false" onAction="#onAjouterJoueurClick" text="ajouter un joueur" />
+            <Label layoutX="95.0" layoutY="14.0" prefHeight="9.0" prefWidth="107.0" text="joueurs" textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="23.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nomJoueurTextField" layoutX="26.0" layoutY="65.0" />
+            <Label layoutX="26.0" layoutY="44.0" prefHeight="13.0" prefWidth="162.0" text="nom du joueur" textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="13.0" />
+               </font>
+            </Label>
+            <ListView fx:id="listView" layoutX="26.0" layoutY="121.0" prefHeight="118.0" prefWidth="257.0" />
+            <Label layoutX="26.0" layoutY="104.0" prefHeight="13.0" prefWidth="162.0" text="liste des joueur" textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="13.0" />
+               </font>
+            </Label>
+            <Button layoutX="65.0" layoutY="239.0" mnemonicParsing="false" onAction="#onSuprimerJoueurClick" text="suprimer le joueur sélectionner" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="399.0" layoutY="296.0" prefHeight="268.0" prefWidth="438.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="21.0">
+         <children>
+            <ChoiceBox fx:id="choiceBox" layoutX="230.0" layoutY="17.0" prefWidth="150.0" />
+            <Label layoutX="35.0" layoutY="15.0" prefHeight="29.0" prefWidth="175.0" text="difficulté :" textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="Liberation Mono" size="23.0" />
+               </font>
+            </Label>
+            <Button layoutX="80.0" layoutY="186.0" mnemonicParsing="false" onAction="#onLancerJeuClick" prefHeight="61.0" prefWidth="279.0" text="lancer le jeu">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
