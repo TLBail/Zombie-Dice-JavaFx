@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -50,7 +52,7 @@
       </AnchorPane>
       <AnchorPane layoutX="399.0" layoutY="296.0" prefHeight="268.0" prefWidth="438.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="21.0">
          <children>
-            <ChoiceBox fx:id="choiceBox" layoutX="230.0" layoutY="17.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="choiceBox" layoutX="230.0" layoutY="17.0" onContextMenuRequested="#onSelectDiffilcute" onMouseClicked="#onSelectDiffilcute" onMouseEntered="#onSelectDiffilcute" onMouseExited="#onSelectDiffilcute" prefWidth="150.0" />
             <Label layoutX="35.0" layoutY="15.0" prefHeight="29.0" prefWidth="175.0" text="difficulté :" textAlignment="CENTER" textFill="#ff9f1c" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Liberation Mono" size="23.0" />
@@ -61,6 +63,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
+            <Canvas fx:id="canvas" height="137.0" layoutX="35.0" layoutY="44.0" width="371.0" />
          </children>
       </AnchorPane>
    </children>
