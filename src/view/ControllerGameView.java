@@ -55,8 +55,6 @@ public class ControllerGameView implements Initializable {
     private Map<String, Image> imageMap;
 
 
-    private FaceDe[] Des;
-
     public ControllerGameView(){
         imageMap = new HashMap<>();
         try {
@@ -75,10 +73,6 @@ public class ControllerGameView implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Des = new FaceDe[3];
-        Des[0] = FaceDe.CERVAL;
-        Des[1] = FaceDe.SHOTGUN;
-        Des[2] = FaceDe.STEP;
     }
 
     @FXML
@@ -103,25 +97,11 @@ public class ControllerGameView implements Initializable {
         difficulter.setText(gameManager.difficulte.toString());
 
         graphicsContext = canvas.getGraphicsContext2D();
-
-        displayCanva();
-    }
-
-
-    private void displayCanva(){
-
-        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-
         graphicsContext.setStroke(Color.valueOf("#357DED"));
         graphicsContext.strokeRect(0,0, canvas.getWidth(), canvas.getHeight());
 
 
         displayCervel();
-
-        displayDice();
-        displayDice();
-
     }
 
 
@@ -146,36 +126,6 @@ public class ControllerGameView implements Initializable {
 
     }
 
-    private void displayDice(){
-        int x = (int) (canvas.getWidth()/2);
-        int y = (int) (canvas.getHeight()/2);
-
-        for (FaceDe de: Des) {
-            switch (de){
-                case CERVAL:
-                    graphicsContext.drawImage(imageMap.get((Object) "brain"), x , y);
-                break;
-                case SHOTGUN:
-                    graphicsContext.drawImage(imageMap.get((Object) "shotgun"), x , y);
-                    break;
-                case STEP:
-                    graphicsContext.drawImage(imageMap.get((Object) "step"), x , y);
-
-            }
-            x += imageMap.get((Object) "brain").getWidth() * 2;
-
-        }
-
-    }
-
-    //Todo vrai lancer de de
-    @FXML
-    void onLancerDe(ActionEvent event){
-        for (int i = 0; i < Des.length; i++) {
-            Des[i] = FaceDe.values()[(int) (Math.random() * 4)];
-        }
-        displayCanva();
-    }
 
 
 }

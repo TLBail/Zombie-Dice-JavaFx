@@ -12,11 +12,6 @@
    <children>
       <StackPane prefHeight="510.0" prefWidth="1020.0">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Canvas fx:id="canvas" height="385.0" layoutX="11.0" layoutY="116.0" width="996.0" />
-               </children>
-            </AnchorPane>
             <AnchorPane prefHeight="510.0" prefWidth="868.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="58.0" prefHeight="70.0" prefWidth="383.0" text="Zombie Dice" textFill="#ff9f1c">
@@ -40,7 +35,7 @@
                         <Font name="Liberation Mono" size="55.0" />
                      </font>
                   </Label>
-                  <Button layoutX="849.0" layoutY="448.0" mnemonicParsing="false" onAction="#onLancerDe" text="Lancer Les De" />
+                  <Canvas fx:id="canvas" height="382.0" layoutX="14.0" layoutY="125.0" width="992.0" />
                </children>
             </AnchorPane>
          </children>
