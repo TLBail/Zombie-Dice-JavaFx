@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="537.0" prefWidth="710.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerMenu">
+   <children>
+      <AnchorPane prefHeight="107.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" layoutX="167.0" layoutY="26.0" prefHeight="56.0" prefWidth="266.0" text="Zombie Dice" textFill="#ff9f1c" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="167.0">
+               <font>
+                  <Font name="Liberation Mono" size="39.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="63.0" layoutY="128.0" prefHeight="62.0" prefWidth="474.0" text="Bienvenue sur le jeu Zombie Dice choisie le nombre de joueur et la difficulté pour commencé" textFill="#ff9f1c" wrapText="true" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="173.0">
+         <font>
+            <Font name="Liberation Mono" size="13.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="368.0" layoutY="180.0" prefHeight="200.0" prefWidth="200.0" />
+      <HBox alignment="CENTER" layoutY="219.0" prefHeight="281.0" prefWidth="710.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="205.0" prefWidth="285.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="78.0" prefHeight="30.0" prefWidth="126.0" text="Joueurs" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                     <font>
+                        <Font name="Liberation Mono" size="21.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="15.0" layoutY="29.0" prefHeight="30.0" prefWidth="126.0" text="nom du joueur" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                     <font>
+                        <Font name="Liberation Mono" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nomJoueurTextField" layoutX="9.0" layoutY="53.0" prefHeight="25.0" prefWidth="142.0" AnchorPane.bottomAnchor="203.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="53.0" />
+                  <Button layoutX="151.0" layoutY="53.0" mnemonicParsing="false" onAction="#onAjouterJoueurClick" prefHeight="25.0" prefWidth="89.0" text="ajouter un joueur" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="10.0" />
+                  <Label alignment="CENTER" layoutX="15.0" layoutY="76.0" prefHeight="30.0" prefWidth="126.0" text="liste des joueur" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                     <font>
+                        <Font name="Liberation Mono" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listView" layoutX="8.0" layoutY="100.0" prefHeight="107.0" prefWidth="271.0" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0" />
+                  <Button layoutX="68.0" layoutY="214.0" mnemonicParsing="false" onAction="#onSuprimerJoueurClick" prefHeight="25.0" prefWidth="148.0" text="suprimer un joueur" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="214.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="227.0" prefWidth="107.0" />
+            <AnchorPane prefHeight="185.0" prefWidth="313.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="157.0" text="difficulté :" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                     <font>
+                        <Font name="Liberation Mono" size="21.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="choiceBox" layoutX="171.0" layoutY="2.0" onContextMenuRequested="#onSelectDiffilcute" onMouseClicked="#onSelectDiffilcute" onMouseEntered="#onSelectDiffilcute" onMouseExited="#onSelectDiffilcute" onMousePressed="#onSelectDiffilcute" onMouseReleased="#onSelectDiffilcute" prefWidth="150.0" />
+                  <Canvas fx:id="canvas" height="172.0" layoutX="9.0" layoutY="29.0" width="304.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" />
+                  <Button layoutX="93.0" layoutY="210.0" mnemonicParsing="false" onAction="#onLancerJeuClick" text="lancer Zombie Dice">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

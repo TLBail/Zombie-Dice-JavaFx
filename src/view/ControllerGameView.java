@@ -84,7 +84,7 @@ public class ControllerGameView implements Initializable {
     @FXML
     void onRevenirAuMenuClick(ActionEvent event){
         try {
-            root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            root = FXMLLoader.load(getClass().getResource("menu.fxml"));
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -172,7 +172,7 @@ public class ControllerGameView implements Initializable {
     @FXML
     void onLancerDe(ActionEvent event){
         for (int i = 0; i < Des.length; i++) {
-            Des[i] = FaceDe.values()[(int) (Math.random() * 4)];
+            Des[i] = FaceDe.values()[(int) (Math.random() * 3)];
         }
         displayCanva();
     }

@@ -23,7 +23,7 @@ public class Main extends Application {
 
         gameManager = new GameManager();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/menu.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Zombie dice");
         Scene scene = new Scene(root, 1000, 600);
