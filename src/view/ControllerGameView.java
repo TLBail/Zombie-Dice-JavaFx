@@ -20,6 +20,8 @@ import sample.GameManager;
 import sample.Joueur;
 import sample.Main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,7 +57,22 @@ public class ControllerGameView implements Initializable {
 
     public ControllerGameView(){
         imageMap = new HashMap<>();
-        imageMap.put("brain", new Image("../../ressources/brain.png"));
+        try {
+            FileInputStream inputstream = new FileInputStream("ressources/brain.png");
+            imageMap.put("brain", new Image(inputstream));
+            inputstream.close();
+            inputstream = new FileInputStream("ressources/shotgun.png");
+            imageMap.put("shotgun", new Image(inputstream));
+            inputstream.close();
+            inputstream = new FileInputStream("ressources/step.png");
+            imageMap.put("step", new Image(inputstream));
+            inputstream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -77,20 +94,12 @@ public class ControllerGameView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         gameManager = Main.gameManager;
         joueurs = (ObservableList<Joueur>) gameManager.joueurList;
-
-        joueurListView.setItems(joueurs);
-
         difficulter.setText(gameManager.difficulte.toString());
-
-        cervels = FXCollections.observableArrayList();
-        for (Joueur joueur: joueurs) {
-            cervels.add(joueur.getCerveaux());
-        }
-        cervelListView.setItems(cervels);
 
         graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setStroke(Color.valueOf("#357DED"));
         graphicsContext.strokeRect(0,0, canvas.getWidth(), canvas.getHeight());
+
 
         displayCervel();
     }
@@ -103,10 +112,16 @@ public class ControllerGameView implements Initializable {
         int y = (int) (canvas.getHeight()/8);
 
         graphicsContext.strokeText("joueur et cervels", x, y);
-
+        y += 10;
         for (Joueur joueur:joueurs   ) {
-            y += 30;
-            graphicsContext.strokeText(joueur.getNom() + "  |  " + joueur.getCerveaux(), x, y);
+            graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "brain").getHeight()/2 );
+            graphicsContext.drawImage(imageMap.get((Object) "brain"),
+                    x + joueur.getNom().length() * 2 + 10,
+                    y);
+            graphicsContext.strokeText(joueur.getCerveaux() + "",
+                    x + imageMap.get((Object) "brain").getWidth() + 20,
+                    y + imageMap.get((Object) "brain").getHeight()/2);
+            y += imageMap.get((Object) "brain").getWidth() + 10;
         }
 
     }
