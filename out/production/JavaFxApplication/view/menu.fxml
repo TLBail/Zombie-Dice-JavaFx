@@ -59,7 +59,7 @@
                         <Font name="Liberation Mono" size="21.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="choiceBox" layoutX="171.0" layoutY="2.0" onContextMenuRequested="#onSelectDiffilcute" onMouseClicked="#onSelectDiffilcute" onMouseEntered="#onSelectDiffilcute" onMouseExited="#onSelectDiffilcute" onMousePressed="#onSelectDiffilcute" onMouseReleased="#onSelectDiffilcute" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choiceBox" layoutX="171.0" layoutY="2.0" prefWidth="150.0" />
                   <Canvas fx:id="canvas" height="172.0" layoutX="9.0" layoutY="29.0" width="304.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" />
                   <Button layoutX="93.0" layoutY="210.0" mnemonicParsing="false" onAction="#onLancerJeuClick" text="lancer Zombie Dice">
                      <font>

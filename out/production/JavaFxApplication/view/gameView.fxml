@@ -14,32 +14,12 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Canvas fx:id="canvas" height="385.0" layoutX="11.0" layoutY="116.0" width="996.0" />
+                  <Canvas fx:id="canvas" height="495.0" layoutX="7.0" layoutY="6.0" width="1000.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="6.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="510.0" prefWidth="868.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="58.0" prefHeight="70.0" prefWidth="383.0" text="Zombie Dice" textFill="#ff9f1c">
-                     <font>
-                        <Font name="Liberation Mono" size="55.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="121.0" layoutY="460.0" mnemonicParsing="false" onAction="#onRevenirAuMenuClick" text="revenir au menu" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="26.0" prefHeight="32.0" prefWidth="145.0" text="Diffilculté :" textFill="#ff9f1c">
-                     <font>
-                        <Font name="Liberation Mono" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="difficulter" alignment="CENTER" contentDisplay="CENTER" layoutX="503.0" layoutY="26.0" prefHeight="32.0" prefWidth="145.0" text="null" textFill="#ff9f1c">
-                     <font>
-                        <Font name="Liberation Mono" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="466.0" layoutY="55.0" prefHeight="70.0" prefWidth="383.0" text="game view" textFill="#ff9f1c">
-                     <font>
-                        <Font name="Liberation Mono" size="55.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="849.0" layoutY="448.0" mnemonicParsing="false" onAction="#onLancerDe" text="Lancer Les De" />
                </children>
             </AnchorPane>

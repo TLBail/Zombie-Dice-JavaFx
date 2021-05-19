@@ -3,6 +3,7 @@ package view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import sample.Difficulte;
 import sample.GameManager;
 import sample.Joueur;
 import sample.Main;
@@ -45,8 +47,7 @@ public class ControllerGameView implements Initializable {
     @FXML
     private Canvas canvas;
 
-    @FXML
-    private Label difficulter;
+
 
     private ObservableList cervels;
 
@@ -100,11 +101,12 @@ public class ControllerGameView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         gameManager = Main.gameManager;
         joueurs = (ObservableList<Joueur>) gameManager.joueurList;
-        difficulter.setText(gameManager.difficulte.toString());
-
         graphicsContext = canvas.getGraphicsContext2D();
 
         displayCanva();
+
+
+
     }
 
 
@@ -120,7 +122,8 @@ public class ControllerGameView implements Initializable {
         displayCervel();
 
         displayDice();
-        displayDice();
+
+        displayDiffilcute();
 
     }
 
@@ -175,6 +178,70 @@ public class ControllerGameView implements Initializable {
             Des[i] = FaceDe.values()[(int) (Math.random() * 3)];
         }
         displayCanva();
+    }
+
+
+
+
+
+
+
+    private void displayDiffilcute(){
+
+        graphicsContext.drawImage(imageMap.get((Object) "brain"),
+                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 6,
+                canvas.getHeight()/16);
+        graphicsContext.drawImage(imageMap.get((Object) "shotgun"),
+                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 4,
+                canvas.getHeight()/16);
+        graphicsContext.drawImage(imageMap.get((Object) "step"),
+                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 2,
+                canvas.getHeight()/16);
+
+        graphicsContext.setStroke(Color.WHITE);
+
+        graphicsContext.strokeText("Diffilcuté : " + gameManager.difficulte, canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "brain").getWidth() / 2);
+
+
+        switch (gameManager.difficulte){
+            case FACILE:
+                graphicsContext.strokeText("3",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("2",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("1",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+
+                break;
+            case NORMAL:
+                graphicsContext.strokeText("2",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5 ,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("2",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("2",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+
+                break;
+            case DIFFICILE:
+                graphicsContext.strokeText("1",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5 ,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("2",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5 ,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+                graphicsContext.strokeText("3",
+                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
+
+                break;
+        }
+
     }
 
 
