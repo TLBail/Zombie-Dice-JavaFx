@@ -10,9 +10,9 @@
 
 <AnchorPane prefHeight="510.0" prefWidth="1011.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerGameView">
    <children>
-      <StackPane prefHeight="510.0" prefWidth="764.0">
+      <StackPane prefHeight="510.0" prefWidth="1020.0">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="510.0" prefWidth="868.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="58.0" prefHeight="70.0" prefWidth="383.0" text="Zombie Dice" textFill="#ff9f1c">
                      <font>
@@ -35,9 +35,9 @@
                         <Font name="Liberation Mono" size="55.0" />
                      </font>
                   </Label>
+                  <Canvas fx:id="canvas" height="382.0" layoutX="14.0" layoutY="125.0" width="992.0" />
                </children>
             </AnchorPane>
-            <Canvas fx:id="canvas" height="250.0" width="363.0" />
          </children>
       </StackPane>
    </children>
