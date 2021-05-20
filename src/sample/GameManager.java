@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
 import view.FaceDe;
 
 import java.util.List;
@@ -61,13 +63,53 @@ public class GameManager {
         }
     }
 
+    @FXML
+    void onchoixDesDe(){
+
+        Color totalde[] = new Color[remainingYellowDice + remainingRedDice + remainingGreenDice];
+        for (int i = 0; i < remainingGreenDice; i++) {
+            totalde[i] = Color.GREEN;
+        }
+        for (int i = 0; i < remainingGreenDice; i++) {
+            totalde[i] = Color.GREEN;
+        }
+        for (int i = 0; i < remainingGreenDice; i++) {
+            totalde[i] = Color.GREEN;
+        }
+
+
+    }
+
+
     public void lancerDeDe(){
         for (int i = 0; i < des.length; i++) {
             des[i] = FaceDe.values()[(int) (Math.random() * 3)];
         }
-        remainingYellowDice--;
-        remainingRedDice--;
+
+
+
+        for (int i = 0; i < 3; i++) {
+            des[i] = FaceDe.values()[(int) (Math.random() * 3)];
+
+
+        }
+
+
+    }
+
+    private void  tirerUnDeVert(){
+
         remainingGreenDice--;
+    }
+
+    private void tirerUnDeRouge(){
+
+        remainingRedDice--;
+    }
+
+    private void tirerUnDeJaunne(){
+
+        remainingYellowDice--;
     }
 
 }
