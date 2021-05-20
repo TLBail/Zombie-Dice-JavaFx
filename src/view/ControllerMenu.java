@@ -101,7 +101,7 @@ public class ControllerMenu implements Initializable {
 
         for (Difficulte difficulte: Difficulte.values()   ) {
             if(difficulte.toString().equals(choiceBox.getValue().toString())){
-                gameManager.difficulte = difficulte;
+                gameManager.setDifficulte(difficulte);
                 break;
             }
         }
@@ -129,7 +129,7 @@ public class ControllerMenu implements Initializable {
         listView.setItems(joueurs);
 
         gameManager = Main.gameManager;
-        gameManager.difficulte = Difficulte.NORMAL;
+        gameManager.setDifficulte(Difficulte.NORMAL);
         for (Difficulte diffilcute: Difficulte.values() ) {
             choiceBox.getItems().add(diffilcute.toString());
         }
@@ -167,50 +167,22 @@ public class ControllerMenu implements Initializable {
 
             for (Difficulte difficulte: Difficulte.values()   ) {
                 if(difficulte.toString().equals(choiceBox.getValue().toString())){
-                    gameManager.difficulte = difficulte;
+                    gameManager.setDifficulte(difficulte);
                     break;
                 }
             }
         }
 
-        switch (gameManager.difficulte){
-            case FACILE:
-                graphicsContext.strokeText("8",
+        graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
                         canvas.getWidth()/4 ,
                         canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("3",
+                graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
                         canvas.getWidth()/2 ,
                         canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("2",
+                graphicsContext.strokeText(gameManager.getRemainingYellowDice() + "",
                         canvas.getWidth()/2 + canvas.getWidth()/4,
                         canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
 
-                break;
-            case NORMAL:
-                graphicsContext.strokeText("6",
-                        canvas.getWidth()/4 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("4",
-                        canvas.getWidth()/2,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("3",
-                        canvas.getWidth()/2 + canvas.getWidth()/4,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-
-                break;
-            case DIFFICILE:
-                graphicsContext.strokeText("4",
-                        canvas.getWidth()/4 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("5",
-                        canvas.getWidth()/2 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("4",
-                        canvas.getWidth()/2 + canvas.getWidth()/4 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-
-                break;
-        }
 
     }
 

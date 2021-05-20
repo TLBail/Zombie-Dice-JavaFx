@@ -1,9 +1,7 @@
 package view;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,12 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sample.Difficulte;
 import sample.GameManager;
 import sample.Joueur;
 import sample.Main;
@@ -26,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -56,8 +51,6 @@ public class ControllerGameView implements Initializable {
     private Map<String, Image> imageMap;
 
 
-    private FaceDe[] Des;
-
     public ControllerGameView(){
         imageMap = new HashMap<>();
         try {
@@ -70,16 +63,22 @@ public class ControllerGameView implements Initializable {
             inputstream = new FileInputStream("ressources/step.png");
             imageMap.put("step", new Image(inputstream));
             inputstream.close();
+            inputstream = new FileInputStream("ressources/reddice.png");
+            imageMap.put("reddice", new Image(inputstream));
+            inputstream.close();
+            inputstream = new FileInputStream("ressources/yellowdice.png");
+            imageMap.put("yellowdice", new Image(inputstream));
+            inputstream.close();
+            inputstream = new FileInputStream("ressources/greendice.png");
+            imageMap.put("greendice", new Image(inputstream));
+            inputstream.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Des = new FaceDe[3];
-        Des[0] = FaceDe.CERVAL;
-        Des[1] = FaceDe.SHOTGUN;
-        Des[2] = FaceDe.STEP;
+
     }
 
     @FXML
@@ -123,7 +122,7 @@ public class ControllerGameView implements Initializable {
 
         displayDice();
 
-        displayDiffilcute();
+        displayRemainingDice();
 
     }
 
@@ -153,7 +152,7 @@ public class ControllerGameView implements Initializable {
         int x = (int) (canvas.getWidth()/2);
         int y = (int) (canvas.getHeight()/2);
 
-        for (FaceDe de: Des) {
+        for (FaceDe de: gameManager.des) {
             switch (de){
                 case CERVAL:
                     graphicsContext.drawImage(imageMap.get((Object) "brain"), x , y);
@@ -174,9 +173,7 @@ public class ControllerGameView implements Initializable {
     //Todo vrai lancer de de
     @FXML
     void onLancerDe(ActionEvent event){
-        for (int i = 0; i < Des.length; i++) {
-            Des[i] = FaceDe.values()[(int) (Math.random() * 3)];
-        }
+        gameManager.lancerDeDe();
         displayCanva();
     }
 
@@ -186,61 +183,32 @@ public class ControllerGameView implements Initializable {
 
 
 
-    private void displayDiffilcute(){
+    private void displayRemainingDice(){
 
-        graphicsContext.drawImage(imageMap.get((Object) "brain"),
-                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 6,
+        graphicsContext.drawImage(imageMap.get((Object) "greendice"),
+                canvas.getWidth() - imageMap.get((Object) "greendice").getWidth() * 6,
                 canvas.getHeight()/16);
-        graphicsContext.drawImage(imageMap.get((Object) "shotgun"),
-                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 4,
+        graphicsContext.drawImage(imageMap.get((Object) "reddice"),
+                canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 4,
                 canvas.getHeight()/16);
-        graphicsContext.drawImage(imageMap.get((Object) "step"),
-                canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 2,
+        graphicsContext.drawImage(imageMap.get((Object) "yellowdice"),
+                canvas.getWidth() - imageMap.get((Object) "yellowdice").getWidth() * 2,
                 canvas.getHeight()/16);
 
         graphicsContext.setStroke(Color.WHITE);
 
-        graphicsContext.strokeText("Diffilcuté : " + gameManager.difficulte, canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "brain").getWidth() / 2);
+        graphicsContext.strokeText("Diffilcuté : " + gameManager.getDifficulte(), canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "brain").getWidth() / 2);
 
+         graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
+                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 5.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
+                graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
+                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 3.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
+                graphicsContext.strokeText(gameManager.getRemainingYellowDice() +"",
+                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 1.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
 
-        switch (gameManager.difficulte){
-            case FACILE:
-                graphicsContext.strokeText("3",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("2",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("1",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-
-                break;
-            case NORMAL:
-                graphicsContext.strokeText("2",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5 ,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("2",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("2",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-
-                break;
-            case DIFFICILE:
-                graphicsContext.strokeText("1",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 5.5 ,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("2",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 3.5 ,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText("3",
-                        canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 1.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "brain").getHeight() * 1.5);
-
-                break;
-        }
 
     }
 
