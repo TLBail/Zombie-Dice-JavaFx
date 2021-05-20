@@ -1,9 +1,6 @@
 package sample;
 
-import javafx.fxml.FXML;
-import javafx.scene.paint.Color;
-import view.FaceDe;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
@@ -16,13 +13,51 @@ public class GameManager {
     private int remainingRedDice;
     private int remainingYellowDice;
 
-    public FaceDe des[];
+    public FaceDe faceDes[];
+
+    public TypeDe desTirer[];
+
+
+    private static final List<FaceDe> GREENDICE = new ArrayList<FaceDe>() {{
+       add(FaceDe.CERVAL);
+       add(FaceDe.CERVAL);
+       add(FaceDe.CERVAL);
+
+       add(FaceDe.STEP);
+       add(FaceDe.STEP);
+
+       add(FaceDe.SHOTGUN);
+    }};
+    private static final List<FaceDe> REDDICE = new ArrayList<FaceDe>() {{
+       add(FaceDe.CERVAL);
+
+       add(FaceDe.STEP);
+       add(FaceDe.STEP);
+
+       add(FaceDe.SHOTGUN);
+       add(FaceDe.SHOTGUN);
+       add(FaceDe.SHOTGUN);
+    }};
+    private static final List<FaceDe> YELLOWDICE = new ArrayList<FaceDe>() {{
+       add(FaceDe.CERVAL);
+       add(FaceDe.CERVAL);
+
+       add(FaceDe.STEP);
+       add(FaceDe.STEP);
+
+       add(FaceDe.SHOTGUN);
+       add(FaceDe.SHOTGUN);
+    }};
+
+
 
     public GameManager(){
-        des = new FaceDe[3];
-        des[0] = FaceDe.CERVAL;
-        des[1] = FaceDe.SHOTGUN;
-        des[2] = FaceDe.STEP;
+        faceDes = new FaceDe[3];
+        faceDes[0] = FaceDe.CERVAL;
+        faceDes[1] = FaceDe.SHOTGUN;
+        faceDes[2] = FaceDe.STEP;
+
+        desTirer = new TypeDe[3];
     }
 
     public int getRemainingGreenDice() {
@@ -63,18 +98,36 @@ public class GameManager {
         }
     }
 
-    @FXML
-    void onchoixDesDe(){
+    public void tirer3De(){
 
-        Color totalde[] = new Color[remainingYellowDice + remainingRedDice + remainingGreenDice];
+        //on créer un tableau avec tout les de
+        List<TypeDe> totalde = new ArrayList<>();
         for (int i = 0; i < remainingGreenDice; i++) {
-            totalde[i] = Color.GREEN;
+            totalde.add(TypeDe.GREEN);
         }
-        for (int i = 0; i < remainingGreenDice; i++) {
-            totalde[i] = Color.GREEN;
+        for (int i = 0; i < remainingRedDice; i++) {
+            totalde.add(TypeDe.GREEN);
         }
-        for (int i = 0; i < remainingGreenDice; i++) {
-            totalde[i] = Color.GREEN;
+        for (int i = 0; i < remainingYellowDice; i++) {
+            totalde.add(TypeDe.YELLOW);
+        }
+
+        //on tire 3 de
+        for (int i = 0; i < 3; i++) {
+            desTirer[i] = totalde.get((int) (Math.random() * totalde.size()) );
+            switch (desTirer[i]){
+                case RED:
+                    remainingRedDice--;
+                    break;
+                case GREEN:
+                    remainingGreenDice--;
+                    break;
+                case YELLOW:
+                    remainingYellowDice--;
+                    break;
+            }
+            totalde.remove(desTirer);
+
         }
 
 
@@ -82,34 +135,36 @@ public class GameManager {
 
 
     public void lancerDeDe(){
-        for (int i = 0; i < des.length; i++) {
-            des[i] = FaceDe.values()[(int) (Math.random() * 3)];
-        }
-
 
 
         for (int i = 0; i < 3; i++) {
-            des[i] = FaceDe.values()[(int) (Math.random() * 3)];
-
+            faceDes[i] = getFaceDeLancer(desTirer[i]);
+            if(faceDes[i] == FaceDe.CERVAL){
+                joueurList.get(0).ajoutCerveaux();
+            }
+            if(faceDes[i] == FaceDe.SHOTGUN){
+                joueurList.get(0).ajoutShotgun();
+            }
 
         }
 
 
+
+
     }
 
-    private void  tirerUnDeVert(){
+    private FaceDe  getFaceDeLancer(TypeDe typeDe){
+        switch (typeDe){
+            case GREEN:
+                return GREENDICE.get((int) (Math.random() * GREENDICE.size()));
+            case YELLOW:
+                return YELLOWDICE.get((int) (Math.random() * YELLOWDICE.size()));
+            case RED:
+                 return REDDICE.get((int) (Math.random() * REDDICE.size()));
+        }
+        return null;
 
-        remainingGreenDice--;
     }
 
-    private void tirerUnDeRouge(){
-
-        remainingRedDice--;
-    }
-
-    private void tirerUnDeJaunne(){
-
-        remainingYellowDice--;
-    }
 
 }

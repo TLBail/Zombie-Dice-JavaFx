@@ -14,9 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sample.GameManager;
-import sample.Joueur;
-import sample.Main;
+import sample.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,22 +53,22 @@ public class ControllerGameView implements Initializable {
         imageMap = new HashMap<>();
         try {
             FileInputStream inputstream = new FileInputStream("ressources/brain.png");
-            imageMap.put("brain", new Image(inputstream));
+            imageMap.put("CERVAL", new Image(inputstream));
             inputstream.close();
             inputstream = new FileInputStream("ressources/shotgun.png");
-            imageMap.put("shotgun", new Image(inputstream));
+            imageMap.put("SHOTGUN", new Image(inputstream));
             inputstream.close();
             inputstream = new FileInputStream("ressources/step.png");
-            imageMap.put("step", new Image(inputstream));
+            imageMap.put("STEP", new Image(inputstream));
             inputstream.close();
             inputstream = new FileInputStream("ressources/reddice.png");
-            imageMap.put("reddice", new Image(inputstream));
+            imageMap.put(TypeDe.RED.toString(), new Image(inputstream));
             inputstream.close();
             inputstream = new FileInputStream("ressources/yellowdice.png");
-            imageMap.put("yellowdice", new Image(inputstream));
+            imageMap.put(TypeDe.YELLOW.toString(), new Image(inputstream));
             inputstream.close();
             inputstream = new FileInputStream("ressources/greendice.png");
-            imageMap.put("greendice", new Image(inputstream));
+            imageMap.put(TypeDe.GREEN.toString(), new Image(inputstream));
             inputstream.close();
 
         } catch (FileNotFoundException e) {
@@ -120,9 +118,11 @@ public class ControllerGameView implements Initializable {
 
         displayCervel();
 
-        displayDice();
+
 
         displayRemainingDice();
+
+
 
     }
 
@@ -136,14 +136,14 @@ public class ControllerGameView implements Initializable {
         graphicsContext.strokeText("joueur et cervels", x, y);
         y += 10;
         for (Joueur joueur:joueurs   ) {
-            graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "brain").getHeight()/2 );
-            graphicsContext.drawImage(imageMap.get((Object) "brain"),
+            graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
+            graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
                     x + joueur.getNom().length() * 2 + 10,
                     y);
             graphicsContext.strokeText(joueur.getCerveaux() + "",
-                    x + imageMap.get((Object) "brain").getWidth() + 20,
-                    y + imageMap.get((Object) "brain").getHeight()/2);
-            y += imageMap.get((Object) "brain").getWidth() + 10;
+                    x + imageMap.get((Object) "CERVAL").getWidth() + 20,
+                    y + imageMap.get((Object) "CERVAL").getHeight()/2);
+            y += imageMap.get((Object) "CERVAL").getWidth() + 10;
         }
 
     }
@@ -152,19 +152,19 @@ public class ControllerGameView implements Initializable {
         int x = (int) (canvas.getWidth()/2);
         int y = (int) (canvas.getHeight()/2);
 
-        for (FaceDe de: gameManager.des) {
+        for (FaceDe de: gameManager.faceDes) {
             switch (de){
                 case CERVAL:
-                    graphicsContext.drawImage(imageMap.get((Object) "brain"), x , y);
+                    graphicsContext.drawImage(imageMap.get((Object) "CERVAL"), x , y);
                 break;
                 case SHOTGUN:
-                    graphicsContext.drawImage(imageMap.get((Object) "shotgun"), x , y);
+                    graphicsContext.drawImage(imageMap.get((Object) "SHOTGUN"), x , y);
                     break;
                 case STEP:
-                    graphicsContext.drawImage(imageMap.get((Object) "step"), x , y);
+                    graphicsContext.drawImage(imageMap.get((Object) "STEP"), x , y);
 
             }
-            x += imageMap.get((Object) "brain").getWidth() * 2;
+            x += imageMap.get((Object) "CERVAL").getWidth() * 2;
 
         }
 
@@ -175,9 +175,15 @@ public class ControllerGameView implements Initializable {
     void onLancerDe(ActionEvent event){
         gameManager.lancerDeDe();
         displayCanva();
+        displayDice();
     }
 
-
+    @FXML
+    void onTirerDe(ActionEvent event){
+        gameManager.tirer3De();
+        displayCanva();
+        afficherlesDeTirer();
+    }
 
 
 
@@ -185,31 +191,48 @@ public class ControllerGameView implements Initializable {
 
     private void displayRemainingDice(){
 
-        graphicsContext.drawImage(imageMap.get((Object) "greendice"),
-                canvas.getWidth() - imageMap.get((Object) "greendice").getWidth() * 6,
+        graphicsContext.drawImage(imageMap.get((Object) TypeDe.GREEN.toString()),
+                canvas.getWidth() - imageMap.get((Object) TypeDe.GREEN.toString()).getWidth() * 6,
                 canvas.getHeight()/16);
-        graphicsContext.drawImage(imageMap.get((Object) "reddice"),
-                canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 4,
+        graphicsContext.drawImage(imageMap.get((Object) TypeDe.RED.toString()),
+                canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 4,
                 canvas.getHeight()/16);
-        graphicsContext.drawImage(imageMap.get((Object) "yellowdice"),
-                canvas.getWidth() - imageMap.get((Object) "yellowdice").getWidth() * 2,
+        graphicsContext.drawImage(imageMap.get((Object) TypeDe.YELLOW.toString()),
+                canvas.getWidth() - imageMap.get((Object) TypeDe.YELLOW.toString()).getWidth() * 2,
                 canvas.getHeight()/16);
 
         graphicsContext.setStroke(Color.WHITE);
 
-        graphicsContext.strokeText("Diffilcuté : " + gameManager.getDifficulte(), canvas.getWidth() - imageMap.get((Object) "brain").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "brain").getWidth() / 2);
+        graphicsContext.strokeText("De restant : ", canvas.getWidth() - imageMap.get((Object) "CERVAL").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "CERVAL").getWidth() / 2);
 
          graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
-                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 5.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
+                        canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 5.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
                 graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
-                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 3.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
+                        canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 3.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
                 graphicsContext.strokeText(gameManager.getRemainingYellowDice() +"",
-                        canvas.getWidth() - imageMap.get((Object) "reddice").getWidth() * 1.5,
-                        canvas.getHeight()/16 + imageMap.get((Object) "reddice").getHeight() * 1.5);
+                        canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 1.5,
+                        canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
 
 
+    }
+
+    private void afficherlesDeTirer(){
+        graphicsContext.setStroke(Color.WHITE);
+
+        int x = (int) (canvas.getWidth()/2);
+        int y = (int) (canvas.getHeight()/2);
+        graphicsContext.strokeText("De tirer : ", x - new String("De tirer").length() * 5, y);
+
+
+
+
+        for (int i = 0; i < gameManager.desTirer.length;i++) {
+            graphicsContext.drawImage(imageMap.get((Object) gameManager.desTirer[i].toString()), x ,y);
+            x += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
+
+        }
     }
 
 

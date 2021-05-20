@@ -9,6 +9,7 @@ public class Joueur {
     }
 
     private int cerveaux;
+    private int shotgun;
 
     public int getCerveaux() {
         return cerveaux;
@@ -18,8 +19,8 @@ public class Joueur {
         return nom;
     }
 
-    public void ajoutCerveaux(int nbcerveau){
-        cerveaux += nbcerveau;
+    public void ajoutCerveaux(){
+        cerveaux++;
     }
 
     @Override
@@ -28,6 +29,11 @@ public class Joueur {
     }
 
 
+    public int getShotgun() {
+        return shotgun;
+    }
 
-
+    public void ajoutShotgun(){
+        shotgun++;
+    }
 }

@@ -1,4 +1,4 @@
-package view;
+package sample;
 
 public enum FaceDe {
     CERVAL,
