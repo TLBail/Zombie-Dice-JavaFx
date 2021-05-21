@@ -1,0 +1,124 @@
+.button{
+    -fx-font-family: "Liberation Mono";
+    -fx-background-color: #354445;
+    -fx-text-fill: #FF9F1C;
+}
+
+.button:hover {
+    -fx-background-color: #357DED;
+}
+
+.button:pressed, .button:default:hover:pressed {
+    -fx-background-color: #465C5D;
+    -fx-text-fill: #FF9F1C;
+}
+
+.button:focused {
+    -fx-border-color: #2C393A, #2C393A;
+    -fx-border-width: 1, 1;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:disabled, .button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.button:default {
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+    -fx-background-color: derive(-fx-focus-color,30%);
+}
+
+
+/*
+list view
+ */
+
+.list-cell {
+    -fx-background-color: #3E4E50;
+    -fx-text-fill: #FF9F1C;
+    -fx-padding: 10,0,10,0;
+    -fx-font-family: "Liberation Mono";
+
+}
+
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #232E2F;
+    -fx-text-fill: #FF9F1C;
+
+}
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color: #3E4E50;
+    -fx-text-fill: #FF9F1C;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #465B5D;
+    -fx-text-fill: #FF9F1C;
+}
+
+.list-view{
+    -fx-background-color: #3E4E50;
+    -fx-border-color: #354546;
+    -fx-text-fill: #FF9F1C;
+
+}
+
+.list-view .virtual-flow  .corner{
+    -fx-background-color: #3E4E50;
+
+}
+
+.list-view .virtual-flow .scroll-bar:vertical{
+    -fx-background-color: #354546;
+
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color: #FF9F1C;
+
+}
+
+
+.text-field {
+    -fx-background-color: #354546;
+    -fx-text-fill: #FF9F1C;
+    -fx-font-family: "Liberation Mono";
+
+}
+
+
+.choice-box {
+    -fx-background-color: #354546;
+    -fx-mark-color: #FF9F1C;
+}
+
+  .choice-box > .label {
+       -fx-text-fill: #FF9F1C;
+  }
+
+  .choice-box .menu-item {
+      -fx-background-color: #354546;
+      -fx-padding: 15;
+  }
+
+.choice-box .menu-item > .label {
+    -fx-text-fill: #FF9F1C;
+    -fx-font-family: "Liberation Mono";
+
+}
+
+  .choice-box .menu-item:hover{
+        -fx-background-color: #232E2F;
+
+  }
+

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class GameManager {
 
+    public static final int NBJOUEURMAX = 5;
+
     private Difficulte difficulte;
 
     public List<Joueur> joueurList;
@@ -158,6 +160,7 @@ public class GameManager {
 
             }
             lancerDeDeDisponible = true;
+
         }
         tirerDesDeDisponible = false;
 

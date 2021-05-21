@@ -13,10 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -91,8 +88,38 @@ public class ControllerMenu implements Initializable {
 
     @FXML
     void onAjouterJoueurClick(ActionEvent event){
-        if(nomJoueurTextField.getText() != null)
+        if(nomJoueurTextField.getText() != null){
+            if (nomJoueurTextField.getText().length() < 1){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Attention !");
+
+                // Header Text: null
+                alert.setHeaderText(null);
+                alert.setContentText("le nom du joueur ne doit pas être vide");
+
+                alert.showAndWait();
+
+                return;
+            }
+
+            if (joueurs.size() >= GameManager.NBJOUEURMAX){
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Attention !");
+
+                // Header Text: null
+                alert.setHeaderText(null);
+                alert.setContentText("5 joueur maximum !");
+
+                alert.showAndWait();
+
+
+                return;
+            }
+
             joueurs.add(new Joueur(nomJoueurTextField.getText()));
+
+        }
 
     }
 

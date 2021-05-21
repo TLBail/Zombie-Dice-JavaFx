@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -39,6 +40,13 @@ public class ControllerGameView implements Initializable {
     private ListView cervelListView;
     @FXML
     private Canvas canvas;
+    @FXML
+    private Button jetDeButton;
+    @FXML
+    private Button joueurSuivantButton;
+    @FXML
+    private Button tirageDeButton;
+
 
 
 
@@ -85,7 +93,7 @@ public class ControllerGameView implements Initializable {
             root = FXMLLoader.load(getClass().getResource("menu.fxml"));
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
+            scene = new Scene(root, 1000, 600);
             stage.setScene(scene);
             stage.show();
 
@@ -205,6 +213,7 @@ public class ControllerGameView implements Initializable {
             displayDice();
 
         }
+        opacitiButton();
     }
 
     @FXML
@@ -216,14 +225,35 @@ public class ControllerGameView implements Initializable {
             afficherlesDeTirer();
 
         }
+        opacitiButton();
     }
 
     @FXML
     void onJoueurSuivant(ActionEvent event){
-        gameManager.joueurSuivant();
-        displayCanva();
+        if(!gameManager.isLancerDeDeDisponible()){
+
+            gameManager.joueurSuivant();
+            displayCanva();
+            opacitiButton();
+
+        }
     }
 
+    private void opacitiButton(){
+        if(!gameManager.isTirerDesDeDisponible()){
+            tirageDeButton.setOpacity(0.5f);
+        }else{
+            tirageDeButton.setOpacity(1);
+        }
+        if(!gameManager.isLancerDeDeDisponible()){
+            jetDeButton.setOpacity(0.5f);
+            joueurSuivantButton.setOpacity(1);
+        }else{
+            jetDeButton.setOpacity(1);
+            joueurSuivantButton.setOpacity(0.5f);
+        }
+
+    }
 
     private void displayRemainingDice(){
 
@@ -270,6 +300,5 @@ public class ControllerGameView implements Initializable {
 
         }
     }
-
 
 }
