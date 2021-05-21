@@ -19,9 +19,10 @@
             </AnchorPane>
             <AnchorPane prefHeight="510.0" prefWidth="868.0">
                <children>
-                  <Button layoutX="121.0" layoutY="460.0" mnemonicParsing="false" onAction="#onRevenirAuMenuClick" text="revenir au menu" />
+                  <Button layoutX="117.0" layoutY="448.0" mnemonicParsing="false" onAction="#onRevenirAuMenuClick" text="revenir au menu" />
                   <Button layoutX="849.0" layoutY="448.0" mnemonicParsing="false" onAction="#onLancerDe" text="Lancer Les dés" />
                   <Button layoutX="711.0" layoutY="448.0" mnemonicParsing="false" onAction="#onTirerDe" prefHeight="25.0" prefWidth="89.0" text="Tirer 3 dés" />
+                  <Button layoutX="510.0" layoutY="448.0" mnemonicParsing="false" onAction="#onJoueurSuivant" text="passer au joueur suivant" />
                </children>
             </AnchorPane>
          </children>

@@ -140,10 +140,10 @@ public class GameManager {
         }
 
         //on tire 3 de
-        if(totalde.size() >= 3){
+        if(totalde.size() >= 3) {
             for (int i = 0; i < 3; i++) {
-                desTirer[i] = totalde.get((int) (Math.random() * totalde.size()) );
-                switch (desTirer[i]){
+                desTirer[i] = totalde.get((int) (Math.random() * totalde.size()));
+                switch (desTirer[i]) {
                     case RED:
                         remainingRedDice--;
                         break;
@@ -158,24 +158,22 @@ public class GameManager {
 
             }
             lancerDeDeDisponible = true;
-
-        }else{
-            if(joueurList.indexOf(actualJoueur) == joueurList.size() - 1){
-                actualJoueur = joueurList.get(0);
-            }else {
-                actualJoueur = joueurList.get( joueurList.indexOf(actualJoueur) + 1);
-            }
-
-            setDifficulte(difficulte);
-
         }
-        if(totalde.size() >= 3){
-            lancerDeDeDisponible = true;
-        }else{
-            lancerDeDeDisponible = false;
+        tirerDesDeDisponible = false;
+
+
+    }
+
+    public void joueurSuivant(){
+        if(joueurList.indexOf(actualJoueur) == joueurList.size() - 1){
+            actualJoueur = joueurList.get(0);
+        }else {
+            actualJoueur = joueurList.get( joueurList.indexOf(actualJoueur) + 1);
         }
 
+        setDifficulte(difficulte);
 
+        tirerDesDeDisponible = true;
 
     }
 
@@ -199,6 +197,9 @@ public class GameManager {
 
         }
 
+        if((remainingYellowDice + remainingGreenDice + remainingRedDice) >= 3){
+            tirerDesDeDisponible = true;
+        }
         lancerDeDeDisponible = false;
 
 

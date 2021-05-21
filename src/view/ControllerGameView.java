@@ -107,6 +107,10 @@ public class ControllerGameView implements Initializable {
     }
 
 
+
+
+
+
     private void displayCanva(){
 
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -214,7 +218,11 @@ public class ControllerGameView implements Initializable {
         }
     }
 
-
+    @FXML
+    void onJoueurSuivant(ActionEvent event){
+        gameManager.joueurSuivant();
+        displayCanva();
+    }
 
 
     private void displayRemainingDice(){
