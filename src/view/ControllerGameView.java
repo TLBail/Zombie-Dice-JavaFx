@@ -78,6 +78,10 @@ public class ControllerGameView implements Initializable {
             inputstream = new FileInputStream("ressources/greendice.png");
             imageMap.put(TypeDe.GREEN.toString(), new Image(inputstream));
             inputstream.close();
+            inputstream = new FileInputStream("ressources/redshotgun.png");
+            imageMap.put("redshotgun", new Image(inputstream));
+            inputstream.close();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -109,6 +113,8 @@ public class ControllerGameView implements Initializable {
         graphicsContext = canvas.getGraphicsContext2D();
 
         displayCanva();
+
+        opacitiButton();
 
 
 
@@ -149,33 +155,31 @@ public class ControllerGameView implements Initializable {
         y += 10;
         for (Joueur joueur:joueurs   ) {
             if(joueur.equals(gameManager.getActualJoueur())){
-
-
                 graphicsContext.strokeText("joueur actuel : " + joueur.getNom() , x - 100 , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
-                graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
-                        x + joueur.getNom().length() * 2 + 10,
-                        y);
-                graphicsContext.strokeText(joueur.getCerveaux() + "",
-                        x + imageMap.get((Object) "CERVAL").getWidth() + 20,
-                        y + imageMap.get((Object) "CERVAL").getHeight()/2);
-                y += imageMap.get((Object) "CERVAL").getWidth() + 10;
-
 
             }else{
-
-
                 graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
-                graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
-                        x + joueur.getNom().length() * 2 + 10,
-                        y);
-                graphicsContext.strokeText(joueur.getCerveaux() + "",
-                        x + imageMap.get((Object) "CERVAL").getWidth() + 20,
-                        y + imageMap.get((Object) "CERVAL").getHeight()/2);
-                y += imageMap.get((Object) "CERVAL").getWidth() + 10;
 
             }
 
+            graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
+                    x + joueur.getNom().length() * 2 + 10,
+                    y);
+            graphicsContext.strokeText(joueur.getCerveaux() + "",
+                    x + imageMap.get((Object) "CERVAL").getWidth() + 20,
+                    y + imageMap.get((Object) "CERVAL").getHeight()/2);
+
+            for (int i = 0; i < joueur.getShotgun(); i++) {
+                graphicsContext.drawImage(imageMap.get((Object) "redshotgun"),
+                        x + joueur.getNom().length() * 2 + 40 + ((i + 1) * imageMap.get((Object) "redshotgun").getWidth()),
+                        y);
+
+            }
+
+            y += imageMap.get((Object) "CERVAL").getWidth() + 10;
+
         }
+
 
 
 
@@ -200,6 +204,7 @@ public class ControllerGameView implements Initializable {
             x += imageMap.get((Object) "CERVAL").getWidth() * 2;
 
         }
+
 
     }
 
@@ -234,9 +239,9 @@ public class ControllerGameView implements Initializable {
 
             gameManager.joueurSuivant();
             displayCanva();
-            opacitiButton();
 
         }
+        opacitiButton();
     }
 
     private void opacitiButton(){
@@ -299,6 +304,14 @@ public class ControllerGameView implements Initializable {
             x += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
 
         }
+
+
+        x = (int) (canvas.getWidth()/2 + imageMap.get((Object) "CERVAL").getWidth());
+        y = (int) (canvas.getHeight()/2 -  imageMap.get((Object) "CERVAL").getWidth());
+        if(gameManager.getNbFaceEmprunteOfLastTurn() > 0){
+            graphicsContext.strokeText("dé emprunte rajouté pour se lancer : " + gameManager.getNbFaceEmprunteOfLastTurn(), x, y);
+        }
+
     }
 
 }

@@ -14,6 +14,7 @@ public class GameManager {
     private int remainingGreenDice;
     private int remainingRedDice;
     private int remainingYellowDice;
+    private int nbFaceEmprunteOfLastTurn;
 
     private Joueur actualJoueur;
 
@@ -37,6 +38,9 @@ public class GameManager {
         return tirerDesDeDisponible;
     }
 
+    public int getNbFaceEmprunteOfLastTurn() {
+        return nbFaceEmprunteOfLastTurn;
+    }
 
     private static final List<FaceDe> GREENDICE = new ArrayList<FaceDe>() {{
        add(FaceDe.CERVAL);
@@ -81,6 +85,8 @@ public class GameManager {
 
         lancerDeDeDisponible = false;
         tirerDesDeDisponible = true;
+
+        nbFaceEmprunteOfLastTurn = 0;
     }
 
     public void setActualJoueur(Joueur actualJoueur) {
@@ -137,10 +143,11 @@ public class GameManager {
         for (int i = 0; i < remainingRedDice; i++) {
             totalde.add(TypeDe.RED);
         }
-        for (int i = 0; i < remainingYellowDice; i++) {
+        for (int i = 0; i < (remainingYellowDice + nbFaceEmprunteOfLastTurn); i++) {
             totalde.add(TypeDe.YELLOW);
         }
 
+        int tempValueofnbFaceEmmprunt = nbFaceEmprunteOfLastTurn;
         //on tire 3 de
         if(totalde.size() >= 3) {
             for (int i = 0; i < 3; i++) {
@@ -153,7 +160,11 @@ public class GameManager {
                         remainingGreenDice--;
                         break;
                     case YELLOW:
-                        remainingYellowDice--;
+                        if(tempValueofnbFaceEmmprunt > 0){
+                            tempValueofnbFaceEmmprunt--;
+                        }else {
+                            remainingYellowDice--;
+                        }
                         break;
                 }
                 totalde.remove(desTirer[i]);
@@ -178,6 +189,8 @@ public class GameManager {
 
         tirerDesDeDisponible = true;
 
+        nbFaceEmprunteOfLastTurn = 0;
+
     }
 
 
@@ -189,6 +202,7 @@ public class GameManager {
 
         }
 
+        nbFaceEmprunteOfLastTurn = 0;
         for (int i = 0; i < 3; i++) {
             faceDes[i] = getFaceDeLancer(desTirer[i]);
             if(faceDes[i] == FaceDe.CERVAL){
@@ -197,6 +211,10 @@ public class GameManager {
             if(faceDes[i] == FaceDe.SHOTGUN){
                 actualJoueur.ajoutShotgun();
             }
+            if(faceDes[i] == FaceDe.STEP){
+                nbFaceEmprunteOfLastTurn++;
+            }
+
 
         }
 
