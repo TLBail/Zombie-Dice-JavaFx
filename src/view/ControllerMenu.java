@@ -107,6 +107,7 @@ public class ControllerMenu implements Initializable {
         }
 
         gameManager.joueurList = joueurs;
+        gameManager.setActualJoueur(joueurs.get(0));
 
         try {
             root = FXMLLoader.load(getClass().getResource("gameView.fxml"));

@@ -136,15 +136,36 @@ public class ControllerGameView implements Initializable {
         graphicsContext.strokeText("joueur et cervels", x, y);
         y += 10;
         for (Joueur joueur:joueurs   ) {
-            graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
-            graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
-                    x + joueur.getNom().length() * 2 + 10,
-                    y);
-            graphicsContext.strokeText(joueur.getCerveaux() + "",
-                    x + imageMap.get((Object) "CERVAL").getWidth() + 20,
-                    y + imageMap.get((Object) "CERVAL").getHeight()/2);
-            y += imageMap.get((Object) "CERVAL").getWidth() + 10;
+            if(joueur.equals(gameManager.getActualJoueur())){
+
+
+                graphicsContext.strokeText("joueur actuel : " + joueur.getNom() , x - 100 , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
+                graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
+                        x + joueur.getNom().length() * 2 + 10,
+                        y);
+                graphicsContext.strokeText(joueur.getCerveaux() + "",
+                        x + imageMap.get((Object) "CERVAL").getWidth() + 20,
+                        y + imageMap.get((Object) "CERVAL").getHeight()/2);
+                y += imageMap.get((Object) "CERVAL").getWidth() + 10;
+
+
+            }else{
+
+
+                graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
+                graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
+                        x + joueur.getNom().length() * 2 + 10,
+                        y);
+                graphicsContext.strokeText(joueur.getCerveaux() + "",
+                        x + imageMap.get((Object) "CERVAL").getWidth() + 20,
+                        y + imageMap.get((Object) "CERVAL").getHeight()/2);
+                y += imageMap.get((Object) "CERVAL").getWidth() + 10;
+
+            }
+
         }
+
+
 
     }
 
@@ -173,18 +194,25 @@ public class ControllerGameView implements Initializable {
     //Todo vrai lancer de de
     @FXML
     void onLancerDe(ActionEvent event){
-        gameManager.lancerDeDe();
-        displayCanva();
-        displayDice();
+        if(gameManager.isLancerDeDeDisponible()){
+
+            gameManager.lancerDeDe();
+            displayCanva();
+            displayDice();
+
+        }
     }
 
     @FXML
     void onTirerDe(ActionEvent event){
-        gameManager.tirer3De();
-        displayCanva();
-        afficherlesDeTirer();
-    }
+        if(gameManager.isTirerDesDeDisponible()){
 
+            gameManager.tirer3De();
+            displayCanva();
+            afficherlesDeTirer();
+
+        }
+    }
 
 
 

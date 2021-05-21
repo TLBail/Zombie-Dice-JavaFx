@@ -13,9 +13,27 @@ public class GameManager {
     private int remainingRedDice;
     private int remainingYellowDice;
 
+    private Joueur actualJoueur;
+
+    public Joueur getActualJoueur() {
+        return actualJoueur;
+    }
+
     public FaceDe faceDes[];
 
     public TypeDe desTirer[];
+
+
+    private boolean lancerDeDeDisponible;
+    private boolean tirerDesDeDisponible;
+
+    public boolean isLancerDeDeDisponible() {
+        return lancerDeDeDisponible;
+    }
+
+    public boolean isTirerDesDeDisponible() {
+        return tirerDesDeDisponible;
+    }
 
 
     private static final List<FaceDe> GREENDICE = new ArrayList<FaceDe>() {{
@@ -58,6 +76,13 @@ public class GameManager {
         faceDes[2] = FaceDe.STEP;
 
         desTirer = new TypeDe[3];
+
+        lancerDeDeDisponible = false;
+        tirerDesDeDisponible = true;
+    }
+
+    public void setActualJoueur(Joueur actualJoueur) {
+        this.actualJoueur = actualJoueur;
     }
 
     public int getRemainingGreenDice() {
@@ -100,35 +125,56 @@ public class GameManager {
 
     public void tirer3De(){
 
+
+
         //on créer un tableau avec tout les de
         List<TypeDe> totalde = new ArrayList<>();
         for (int i = 0; i < remainingGreenDice; i++) {
             totalde.add(TypeDe.GREEN);
         }
         for (int i = 0; i < remainingRedDice; i++) {
-            totalde.add(TypeDe.GREEN);
+            totalde.add(TypeDe.RED);
         }
         for (int i = 0; i < remainingYellowDice; i++) {
             totalde.add(TypeDe.YELLOW);
         }
 
         //on tire 3 de
-        for (int i = 0; i < 3; i++) {
-            desTirer[i] = totalde.get((int) (Math.random() * totalde.size()) );
-            switch (desTirer[i]){
-                case RED:
-                    remainingRedDice--;
-                    break;
-                case GREEN:
-                    remainingGreenDice--;
-                    break;
-                case YELLOW:
-                    remainingYellowDice--;
-                    break;
+        if(totalde.size() >= 3){
+            for (int i = 0; i < 3; i++) {
+                desTirer[i] = totalde.get((int) (Math.random() * totalde.size()) );
+                switch (desTirer[i]){
+                    case RED:
+                        remainingRedDice--;
+                        break;
+                    case GREEN:
+                        remainingGreenDice--;
+                        break;
+                    case YELLOW:
+                        remainingYellowDice--;
+                        break;
+                }
+                totalde.remove(desTirer[i]);
+
             }
-            totalde.remove(desTirer);
+            lancerDeDeDisponible = true;
+
+        }else{
+            if(joueurList.indexOf(actualJoueur) == joueurList.size() - 1){
+                actualJoueur = joueurList.get(0);
+            }else {
+                actualJoueur = joueurList.get( joueurList.indexOf(actualJoueur) + 1);
+            }
+
+            setDifficulte(difficulte);
 
         }
+        if(totalde.size() >= 3){
+            lancerDeDeDisponible = true;
+        }else{
+            lancerDeDeDisponible = false;
+        }
+
 
 
     }
@@ -136,18 +182,24 @@ public class GameManager {
 
     public void lancerDeDe(){
 
+        if(!lancerDeDeDisponible){
+            System.out.println("le lancer de dé n'est pas disponible");
+            return;
+
+        }
 
         for (int i = 0; i < 3; i++) {
             faceDes[i] = getFaceDeLancer(desTirer[i]);
             if(faceDes[i] == FaceDe.CERVAL){
-                joueurList.get(0).ajoutCerveaux();
+                actualJoueur.ajoutCerveaux();
             }
             if(faceDes[i] == FaceDe.SHOTGUN){
-                joueurList.get(0).ajoutShotgun();
+                actualJoueur.ajoutShotgun();
             }
 
         }
 
+        lancerDeDeDisponible = false;
 
 
 
