@@ -1,6 +1,5 @@
 package view;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sample.Difficulte;
@@ -23,9 +21,7 @@ import sample.GameManager;
 import sample.Joueur;
 import sample.Main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,31 +53,12 @@ public class ControllerMenu implements Initializable {
 
     public ControllerMenu(){
         imageMap = new HashMap<>();
-        try {
-            FileInputStream inputstream = new FileInputStream("ressources/brain.png");
-            imageMap.put("brain", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/shotgun.png");
-            imageMap.put("shotgun", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/step.png");
-            imageMap.put("step", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/reddice.png");
-            imageMap.put("reddice", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/yellowdice.png");
-            imageMap.put("yellowdice", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/greendice.png");
-            imageMap.put("greendice", new Image(inputstream));
-            inputstream.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        imageMap.put("brain", new Image(new File("ressources/brain.png").toURI().toString()));
+        imageMap.put("shotgun", new Image(new File("ressources/shotgun.png").toURI().toString()));
+        imageMap.put("step", new Image(new File("ressources/step.png").toURI().toString()));
+        imageMap.put("reddice", new Image(new File("ressources/reddice.png").toURI().toString()));
+        imageMap.put("yellowdice", new Image(new File("ressources/yellowdice.png").toURI().toString()));
+        imageMap.put("greendice", new Image(new File("ressources/greendice.png").toURI().toString()));
 
     }
 
@@ -125,6 +102,34 @@ public class ControllerMenu implements Initializable {
 
     @FXML
     void onLancerJeuClick(ActionEvent event){
+
+        if(choiceBox.getValue() == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention !");
+
+            // Header Text: null
+            alert.setHeaderText(null);
+            alert.setContentText("on ta demandé de choisir une difficulté !!!!!");
+
+            alert.showAndWait();
+
+            return;
+        }
+
+        if(joueurs == null || joueurs.isEmpty()){
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Attention !");
+
+            // Header Text: null
+            alert.setHeaderText(null);
+            alert.setContentText("rajoute au moins un joueur stp");
+
+            alert.showAndWait();
+
+            return;
+
+        }
 
         for (Difficulte difficulte: Difficulte.values()   ) {
             if(difficulte.toString().equals(choiceBox.getValue().toString())){
@@ -186,9 +191,7 @@ public class ControllerMenu implements Initializable {
 
         graphicsContext.clearRect(0, canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight(), canvas.getWidth(), canvas.getHeight());
 
-
-
-
+        System.out.println(imageMap.get((Object) "brain").getHeight());
         graphicsContext.setStroke(Color.WHITE);
 
         if(choiceBox.getValue() != null){
@@ -216,7 +219,21 @@ public class ControllerMenu implements Initializable {
 
 
 
+    @FXML
+    void onVoirLesScoreclick(ActionEvent event){
+        try {
+            root = FXMLLoader.load(getClass().getResource("ScoreView.fxml"));
 
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     @FXML

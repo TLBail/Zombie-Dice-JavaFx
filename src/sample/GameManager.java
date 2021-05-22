@@ -1,5 +1,11 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,15 +144,23 @@ public class GameManager {
     }
 
     public void joueurSuivant(){
+        //ajout des cerveaux gagné
+        actualJoueur.ajouterLesCerveauxDuTour();
+        //on remet le joueur a zero
+        actualJoueur.remettreAzero();
+
+
+        //sélection du joueur suivant
         if(joueurList.indexOf(actualJoueur) == joueurList.size() - 1){
             actualJoueur = joueurList.get(0);
         }else {
             actualJoueur = joueurList.get( joueurList.indexOf(actualJoueur) + 1);
         }
 
+        //remise a zero des variable
         setDifficulte(difficulte);
-
         tirerDesDeDisponible = true;
+
 
     }
 
@@ -156,21 +170,22 @@ public class GameManager {
         if(!lancerDeDeDisponible){
             System.out.println("le lancer de dé n'est pas disponible");
             return;
-
         }
+
+        //on jete 3 de
         for (int i = 0; i < 3; i++) {
             faceDes[i] = desTirer[i].getFaceDeLancer();
-            if(faceDes[i] == FaceDe.CERVAL){
-                actualJoueur.ajoutCerveaux();
+            switch (faceDes[i]){
+                case STEP:
+                    totalDe.add(new Dice(Dice.YELLOWDICEFACES));
+                break;
+                case CERVAL:
+                    actualJoueur.ajoutCerveaux();
+                break;
+                case SHOTGUN:
+                    actualJoueur.ajoutShotgun();
+                break;
             }
-            if(faceDes[i] == FaceDe.SHOTGUN){
-                actualJoueur.ajoutShotgun();
-            }
-            if(faceDes[i] == FaceDe.STEP){
-                totalDe.add(new Dice(Dice.YELLOWDICEFACES));
-            }
-
-
         }
 
         if(totalDe.size() >= 3){
@@ -178,6 +193,15 @@ public class GameManager {
         }
         lancerDeDeDisponible = false;
 
+
+
+        //on regarde si 3 fusils à pome ont été roulés
+        if(actualJoueur.getShotgun() >= 3){
+            actualJoueur.remettreAzero();  //remet les cerveaux du tour et le nombre de shotgun a zero
+            //on donne que la possibilité de passer au joueur suivant
+            lancerDeDeDisponible = false;
+            tirerDesDeDisponible = false;
+        }
 
 
     }

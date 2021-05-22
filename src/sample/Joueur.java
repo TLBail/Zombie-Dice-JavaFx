@@ -8,11 +8,26 @@ public class Joueur {
         this.nom = nom;
     }
 
-    private int cerveaux;
+    private int cerveauxTotal;
+    private int cerveauxDuTour;
     private int shotgun;
+    private int nbTourSaute;
+    private int nbLancerSuccesif;
 
-    public int getCerveaux() {
-        return cerveaux;
+    public int getNbTourSaute() {
+        return nbTourSaute;
+    }
+
+    public int getNbLancerSuccesif() {
+        return nbLancerSuccesif;
+    }
+
+    public int getCerveauxDuTour() {
+        return cerveauxDuTour;
+    }
+
+    public int getCerveauxTotal() {
+        return cerveauxTotal;
     }
 
     public String getNom() {
@@ -20,12 +35,23 @@ public class Joueur {
     }
 
     public void ajoutCerveaux(){
-        cerveaux++;
+        cerveauxDuTour++;
     }
 
     @Override
     public String toString() {
         return "joueur : " + nom;
+    }
+
+
+    public void ajouterLesCerveauxDuTour(){
+        cerveauxTotal += cerveauxDuTour;
+        cerveauxDuTour = 0;
+    }
+
+    public void remettreAzero(){
+        cerveauxDuTour = 0;
+        shotgun = 0;
     }
 
 
@@ -36,4 +62,7 @@ public class Joueur {
     public void ajoutShotgun(){
         shotgun++;
     }
+
+
+
 }

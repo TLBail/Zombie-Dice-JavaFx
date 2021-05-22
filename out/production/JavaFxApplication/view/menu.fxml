@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="537.0" prefWidth="710.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerMenu">
+<AnchorPane prefHeight="569.0" prefWidth="861.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerMenu">
    <children>
       <AnchorPane prefHeight="107.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -50,7 +50,10 @@
                   <Button layoutX="68.0" layoutY="214.0" mnemonicParsing="false" onAction="#onSuprimerJoueurClick" prefHeight="25.0" prefWidth="148.0" stylesheets="@style.css" text="suprimer un joueur" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="214.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="227.0" prefWidth="107.0" />
+            <AnchorPane prefHeight="227.0" prefWidth="107.0">
+               <children>
+                  <Button layoutX="5.0" layoutY="214.0" mnemonicParsing="false" onAction="#onVoirLesScoreclick" prefHeight="25.0" prefWidth="148.0" stylesheets="@style.css" text="voir les score" />
+               </children></AnchorPane>
             <AnchorPane prefHeight="185.0" prefWidth="313.0">
                <children>
                   <Label alignment="CENTER" prefHeight="30.0" prefWidth="157.0" text="difficulté :" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
@@ -60,7 +63,7 @@
                   </Label>
                   <ChoiceBox fx:id="choiceBox" layoutX="171.0" layoutY="2.0" prefWidth="150.0" stylesheets="@style.css" />
                   <Canvas fx:id="canvas" height="172.0" layoutX="9.0" layoutY="29.0" width="304.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" />
-                  <Button layoutX="93.0" layoutY="210.0" mnemonicParsing="false" onAction="#onLancerJeuClick" stylesheets="@style.css" text="lancer Zombie Dice">
+                  <Button layoutX="93.0" layoutY="214.0" mnemonicParsing="false" onAction="#onLancerJeuClick" stylesheets="@style.css" text="lancer Zombie Dice">
                      <font>
                         <Font size="13.0" />
                      </font>

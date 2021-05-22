@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerScoreView">
+   <children>
+      <StackPane prefHeight="410.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="600.0" opacity="0.11" preserveRatio="false" />
+            <AnchorPane prefHeight="370.0" prefWidth="475.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="138.0" layoutY="14.0" prefHeight="77.0" prefWidth="325.0" text="High Scores" textAlignment="CENTER" textFill="#ff9f1c" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="137.0" AnchorPane.topAnchor="14.0">
+                     <font>
+                        <Font name="Liberation Mono" size="37.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="28.0" layoutY="355.0" mnemonicParsing="false" onAction="#onRevenirAuMenuClick" prefHeight="25.0" prefWidth="148.0" stylesheets="@style.css" text="revenir au menu" />
+                  <Pane layoutX="288.0" layoutY="117.0" prefHeight="200.0" prefWidth="237.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="117.0">
+                     <children>
+                        <ListView fx:id="joueurListView" layoutX="3.0" layoutY="64.0" opacity="0.79" prefHeight="107.0" prefWidth="170.0" stylesheets="@style.css" />
+                        <ListView fx:id="scoreListView" layoutX="173.0" layoutY="64.0" opacity="0.79" prefHeight="107.0" prefWidth="36.0" stylesheets="@style.css" />
+                        <Label alignment="CENTER" layoutX="158.0" layoutY="35.0" prefHeight="30.0" prefWidth="66.0" text="score" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                           <font>
+                              <Font name="Liberation Mono" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="35.0" prefHeight="30.0" prefWidth="126.0" text="liste des joueur" textAlignment="CENTER" textFill="#ff9f1c" wrapText="true">
+                           <font>
+                              <Font name="Liberation Mono" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

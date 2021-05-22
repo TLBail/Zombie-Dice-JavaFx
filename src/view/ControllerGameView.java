@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sample.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,35 +60,14 @@ public class ControllerGameView implements Initializable {
 
     public ControllerGameView(){
         imageMap = new HashMap<>();
-        try {
-            FileInputStream inputstream = new FileInputStream("ressources/brain.png");
-            imageMap.put("CERVAL", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/shotgun.png");
-            imageMap.put("SHOTGUN", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/step.png");
-            imageMap.put("STEP", new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/reddice.png");
-            imageMap.put(TypeDe.RED.toString(), new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/yellowdice.png");
-            imageMap.put(TypeDe.YELLOW.toString(), new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/greendice.png");
-            imageMap.put(TypeDe.GREEN.toString(), new Image(inputstream));
-            inputstream.close();
-            inputstream = new FileInputStream("ressources/redshotgun.png");
-            imageMap.put("redshotgun", new Image(inputstream));
-            inputstream.close();
 
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        imageMap.put("CERVAL", new Image(new File("ressources/brain.png").toURI().toString()));
+        imageMap.put("SHOTGUN", new Image(new File("ressources/shotgun.png").toURI().toString()));
+        imageMap.put("STEP", new Image(new File("ressources/step.png").toURI().toString()));
+        imageMap.put(TypeDe.RED.toString(), new Image(new File("ressources/reddice.png").toURI().toString()));
+        imageMap.put(TypeDe.YELLOW.toString(), new Image(new File("ressources/yellowdice.png").toURI().toString()));
+        imageMap.put(TypeDe.GREEN.toString(), new Image(new File("ressources/greendice.png").toURI().toString()));
+        imageMap.put("redshotgun", new Image(new File("ressources/redshotgun.png").toURI().toString()));
 
     }
 
@@ -148,27 +128,33 @@ public class ControllerGameView implements Initializable {
     private void displayCervel(){
         graphicsContext.setStroke(Color.valueOf("#FF9F1C"));
 
-        int x = (int) (canvas.getWidth()/8);
+        int x = (int) (canvas.getWidth()/7);
         int y = (int) (canvas.getHeight()/8);
 
         graphicsContext.strokeText("joueur et cervels", x, y);
         y += 10;
         for (Joueur joueur:joueurs   ) {
             if(joueur.equals(gameManager.getActualJoueur())){
-                graphicsContext.strokeText("joueur actuel : " + joueur.getNom() , x - 100 , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
+                graphicsContext.strokeText("joueur actuel : " + joueur.getNom() , x - new String("joueur actuel : " + joueur.getNom()).length() * 5 , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
 
             }else{
-                graphicsContext.strokeText(joueur.getNom() , x , y + imageMap.get((Object) "CERVAL").getHeight()/2 );
+                graphicsContext.strokeText(joueur.getNom() , x - joueur.getNom().length() * 5, y + imageMap.get((Object) "CERVAL").getHeight()/2 );
 
             }
 
             graphicsContext.drawImage(imageMap.get((Object) "CERVAL"),
-                    x + joueur.getNom().length() * 2 + 10,
+                    x,
                     y);
-            graphicsContext.strokeText(joueur.getCerveaux() + "",
+            graphicsContext.strokeText(joueur.getCerveauxTotal() + "",
                     x + imageMap.get((Object) "CERVAL").getWidth() + 20,
                     y + imageMap.get((Object) "CERVAL").getHeight()/2);
 
+            graphicsContext.setStroke(Color.valueOf("357DED"));
+            graphicsContext.strokeText(joueur.getCerveauxDuTour() + "",
+                    x + imageMap.get((Object) "CERVAL").getWidth() + 30,
+                    y + imageMap.get((Object) "CERVAL").getHeight()/2);
+
+            graphicsContext.setStroke(Color.valueOf("#FF9F1C"));
             for (int i = 0; i < joueur.getShotgun(); i++) {
                 graphicsContext.drawImage(imageMap.get((Object) "redshotgun"),
                         x + joueur.getNom().length() * 2 + 40 + ((i + 1) * imageMap.get((Object) "redshotgun").getWidth()),
@@ -242,6 +228,26 @@ public class ControllerGameView implements Initializable {
 
         }
         opacitiButton();
+
+        for (Joueur joueur: gameManager.joueurList
+             ) {
+
+            if(joueur.getCerveauxTotal() >= 13){
+                try {
+                    root = FXMLLoader.load(getClass().getResource("ScoreView.fxml"));
+
+                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
     }
 
     private void opacitiButton(){
@@ -272,7 +278,7 @@ public class ControllerGameView implements Initializable {
                 canvas.getWidth() - imageMap.get((Object) TypeDe.YELLOW.toString()).getWidth() * 2,
                 canvas.getHeight()/16);
 
-        graphicsContext.setStroke(Color.WHITE);
+        graphicsContext.setStroke(Color.valueOf("#FF9F1C"));
 
         graphicsContext.strokeText("De restant : ", canvas.getWidth() - imageMap.get((Object) "CERVAL").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "CERVAL").getWidth() / 2);
 
