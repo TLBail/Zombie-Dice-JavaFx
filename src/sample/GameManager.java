@@ -11,11 +11,6 @@ public class GameManager {
 
     public List<Joueur> joueurList;
 
-    private int remainingGreenDice;
-    private int remainingRedDice;
-    private int remainingYellowDice;
-    private int nbFaceEmprunteOfLastTurn;
-
     private Joueur actualJoueur;
 
     public Joueur getActualJoueur() {
@@ -24,8 +19,9 @@ public class GameManager {
 
     public FaceDe faceDes[];
 
-    public TypeDe desTirer[];
+    public List<Dice> totalDe;
 
+    public Dice desTirer[];
 
     private boolean lancerDeDeDisponible;
     private boolean tirerDesDeDisponible;
@@ -38,42 +34,6 @@ public class GameManager {
         return tirerDesDeDisponible;
     }
 
-    public int getNbFaceEmprunteOfLastTurn() {
-        return nbFaceEmprunteOfLastTurn;
-    }
-
-    private static final List<FaceDe> GREENDICE = new ArrayList<FaceDe>() {{
-       add(FaceDe.CERVAL);
-       add(FaceDe.CERVAL);
-       add(FaceDe.CERVAL);
-
-       add(FaceDe.STEP);
-       add(FaceDe.STEP);
-
-       add(FaceDe.SHOTGUN);
-    }};
-    private static final List<FaceDe> REDDICE = new ArrayList<FaceDe>() {{
-       add(FaceDe.CERVAL);
-
-       add(FaceDe.STEP);
-       add(FaceDe.STEP);
-
-       add(FaceDe.SHOTGUN);
-       add(FaceDe.SHOTGUN);
-       add(FaceDe.SHOTGUN);
-    }};
-    private static final List<FaceDe> YELLOWDICE = new ArrayList<FaceDe>() {{
-       add(FaceDe.CERVAL);
-       add(FaceDe.CERVAL);
-
-       add(FaceDe.STEP);
-       add(FaceDe.STEP);
-
-       add(FaceDe.SHOTGUN);
-       add(FaceDe.SHOTGUN);
-    }};
-
-
 
     public GameManager(){
         faceDes = new FaceDe[3];
@@ -81,12 +41,12 @@ public class GameManager {
         faceDes[1] = FaceDe.SHOTGUN;
         faceDes[2] = FaceDe.STEP;
 
-        desTirer = new TypeDe[3];
+        desTirer = new Dice[3];
 
         lancerDeDeDisponible = false;
         tirerDesDeDisponible = true;
 
-        nbFaceEmprunteOfLastTurn = 0;
+        totalDe = new ArrayList<>();
     }
 
     public void setActualJoueur(Joueur actualJoueur) {
@@ -94,15 +54,29 @@ public class GameManager {
     }
 
     public int getRemainingGreenDice() {
-        return remainingGreenDice;
+        int sum = 0;
+        for (Dice de : totalDe) {
+            if(de.getTypeDe() == TypeDe.GREEN) sum++;
+        }
+        return sum;
     }
 
     public int getRemainingRedDice() {
-        return remainingRedDice;
+
+        int sum = 0;
+        for (Dice de : totalDe) {
+            if(de.getTypeDe() == TypeDe.RED) sum++;
+        }
+        return sum;
     }
 
     public int getRemainingYellowDice() {
-        return remainingYellowDice;
+
+        int sum = 0;
+        for (Dice de : totalDe) {
+            if(de.getTypeDe() == TypeDe.YELLOW) sum++;
+        }
+        return sum;
     }
 
 
@@ -111,23 +85,35 @@ public class GameManager {
     }
 
     public void setDifficulte(Difficulte difficulte) {
+        totalDe = new ArrayList<>();
         this.difficulte = difficulte;
+        int greenDice, yellowDice, redDice;
         switch (difficulte){
             case FACILE:
-                remainingGreenDice = 8;
-                remainingRedDice = 3;
-                remainingYellowDice = 2;
-                break;
-            case NORMAL:
-                remainingGreenDice = 6;
-                remainingRedDice = 4;
-                remainingYellowDice = 3;
+                greenDice = 8;
+                redDice = 3;
+                yellowDice = 2;
                 break;
             case DIFFICILE:
-                remainingGreenDice = 4;
-                remainingRedDice = 5;
-                remainingYellowDice = 4;
+                greenDice = 4;
+                redDice = 5;
+                yellowDice = 4;
                 break;
+            default: //case NORMAL ou autre
+                greenDice = 6;
+                redDice = 4;
+                yellowDice = 3;
+                break;
+
+        }
+        for (int i = 0; i < redDice; i++) {
+            totalDe.add(new Dice(Dice.REDDICEFACES));
+        }
+        for (int i = 0; i < greenDice; i++) {
+            totalDe.add(new Dice(Dice.GREENDICEFACES));
+        }
+        for (int i = 0; i < yellowDice; i++) {
+            totalDe.add(new Dice(Dice.YELLOWDICEFACES));
         }
     }
 
@@ -135,39 +121,12 @@ public class GameManager {
 
 
 
-        //on créer un tableau avec tout les de
-        List<TypeDe> totalde = new ArrayList<>();
-        for (int i = 0; i < remainingGreenDice; i++) {
-            totalde.add(TypeDe.GREEN);
-        }
-        for (int i = 0; i < remainingRedDice; i++) {
-            totalde.add(TypeDe.RED);
-        }
-        for (int i = 0; i < (remainingYellowDice + nbFaceEmprunteOfLastTurn); i++) {
-            totalde.add(TypeDe.YELLOW);
-        }
-
-        int tempValueofnbFaceEmmprunt = nbFaceEmprunteOfLastTurn;
+        //todo penser a rajouter les de jaune dans la list
         //on tire 3 de
-        if(totalde.size() >= 3) {
+        if(totalDe.size() >= 3) {
             for (int i = 0; i < 3; i++) {
-                desTirer[i] = totalde.get((int) (Math.random() * totalde.size()));
-                switch (desTirer[i]) {
-                    case RED:
-                        remainingRedDice--;
-                        break;
-                    case GREEN:
-                        remainingGreenDice--;
-                        break;
-                    case YELLOW:
-                        if(tempValueofnbFaceEmmprunt > 0){
-                            tempValueofnbFaceEmmprunt--;
-                        }else {
-                            remainingYellowDice--;
-                        }
-                        break;
-                }
-                totalde.remove(desTirer[i]);
+                desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
+                totalDe.remove(desTirer[i]);
 
             }
             lancerDeDeDisponible = true;
@@ -189,8 +148,6 @@ public class GameManager {
 
         tirerDesDeDisponible = true;
 
-        nbFaceEmprunteOfLastTurn = 0;
-
     }
 
 
@@ -201,10 +158,8 @@ public class GameManager {
             return;
 
         }
-
-        nbFaceEmprunteOfLastTurn = 0;
         for (int i = 0; i < 3; i++) {
-            faceDes[i] = getFaceDeLancer(desTirer[i]);
+            faceDes[i] = desTirer[i].getFaceDeLancer();
             if(faceDes[i] == FaceDe.CERVAL){
                 actualJoueur.ajoutCerveaux();
             }
@@ -212,13 +167,13 @@ public class GameManager {
                 actualJoueur.ajoutShotgun();
             }
             if(faceDes[i] == FaceDe.STEP){
-                nbFaceEmprunteOfLastTurn++;
+                totalDe.add(new Dice(Dice.YELLOWDICEFACES));
             }
 
 
         }
 
-        if((remainingYellowDice + remainingGreenDice + remainingRedDice) >= 3){
+        if(totalDe.size() >= 3){
             tirerDesDeDisponible = true;
         }
         lancerDeDeDisponible = false;
@@ -226,19 +181,5 @@ public class GameManager {
 
 
     }
-
-    private FaceDe  getFaceDeLancer(TypeDe typeDe){
-        switch (typeDe){
-            case GREEN:
-                return GREENDICE.get((int) (Math.random() * GREENDICE.size()));
-            case YELLOW:
-                return YELLOWDICE.get((int) (Math.random() * YELLOWDICE.size()));
-            case RED:
-                 return REDDICE.get((int) (Math.random() * REDDICE.size()));
-        }
-        return null;
-
-    }
-
 
 }

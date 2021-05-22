@@ -308,9 +308,6 @@ public class ControllerGameView implements Initializable {
 
         x = (int) (canvas.getWidth()/2 + imageMap.get((Object) "CERVAL").getWidth());
         y = (int) (canvas.getHeight()/2 -  imageMap.get((Object) "CERVAL").getWidth());
-        if(gameManager.getNbFaceEmprunteOfLastTurn() > 0){
-            graphicsContext.strokeText("dé emprunte rajouté pour se lancer : " + gameManager.getNbFaceEmprunteOfLastTurn(), x, y);
-        }
 
     }
 
