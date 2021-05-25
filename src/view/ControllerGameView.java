@@ -70,7 +70,7 @@ public class ControllerGameView implements Initializable {
     private Timeline timeline;
     private AnimationTimer timer;
 
-    private TypeDe oldDETirer[];
+    private Dice oldDETirer[];
 
     public ControllerGameView(){
         imageMap = new HashMap<>();
@@ -117,8 +117,8 @@ public class ControllerGameView implements Initializable {
                         new KeyValue(x, 0),
                         new KeyValue(y, 0)
                 ),
-                new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(x, 800),
+                new KeyFrame(Duration.seconds(0.5),
+                        new KeyValue(x, 720),
                         new KeyValue(y, 100)
                 )
         );
@@ -139,10 +139,11 @@ public class ControllerGameView implements Initializable {
                     int xa = (int) (canvas.getWidth()/2);
                     int yb = (int) (canvas.getHeight()/2);
 
+                    System.out.println(oldDETirer[0].toString());
                     for (int i = 0; i < gameManager.desTirer.length;i++) {
                         //Tools.drawRotatedImage(graphicsContext,
-                          //      imageMap.get((Object) gameManager.desTirer[i].toString()), x.doubleValue() ,xa, yb);
-                            //xa += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
+                        //       imageMap.get((Object) oldDETirer[i].toString()), x.doubleValue() ,xa, yb);
+                         //   xa += imageMap.get((Object) oldDETirer[i].toString()).getWidth() * 2;
 
                         }
                     }else {
@@ -303,8 +304,8 @@ public class ControllerGameView implements Initializable {
     void onTirerDe(ActionEvent event){
 
         if(gameManager.isTirerDesDeDisponible()){
-
             gameManager.tirer3De();
+            oldDETirer = gameManager.desTirer;
             displayCanva();
             afficherlesDeTirer();
 
