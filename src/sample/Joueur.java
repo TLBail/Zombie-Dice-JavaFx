@@ -64,6 +64,9 @@ public class Joueur implements Comparable<Joueur>, Serializable {
         shotgun = 0;
     }
 
+    public void remettreAzeroLesCerveauxDuTour(){
+        cerveauxDuTour = 0;
+    }
 
     public int getShotgun() {
         return shotgun;

@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,8 @@ public class GameManager {
     private int getNbPersonalizedYellowDice;
 
     private int comboOfActualjoueur;
+
+    private List<Dice> diceInCaseOfIlyApuDice;
 
     public boolean isLancerDeDeDisponible() {
         return lancerDeDeDisponible;
@@ -84,6 +89,8 @@ public class GameManager {
         getNbPersonalizedYellowDice = 0;
 
         comboOfActualjoueur = 0;
+
+        diceInCaseOfIlyApuDice = new ArrayList<>();
     }
 
     public void setActualJoueur(Joueur actualJoueur) {
@@ -258,6 +265,11 @@ public class GameManager {
         setDifficulte(difficulte);
         tirerDesDeDisponible = true;
         comboOfActualjoueur = 0;
+        diceInCaseOfIlyApuDice.clear();
+
+
+        //on check si un des joueur a plus de 13 cerval
+
 
     }
 
@@ -272,21 +284,36 @@ public class GameManager {
         //on jete 3 de
         for (int i = 0; i < 3; i++) {
             faceDes[i] = desTirer[i].getFaceDeLancer();
-            desTirer[i] = null;
             switch (faceDes[i]){
                 case STEP:
-                    desTirer[i] = new Dice(Dice.YELLOWDICEFACES);
                     break;
                 case CERVAL:
                     actualJoueur.ajoutCerveaux();
+                    diceInCaseOfIlyApuDice.add(desTirer[i]);
+                    desTirer[i] = null;
                 break;
                 case SHOTGUN:
                     actualJoueur.ajoutShotgun();
+                    desTirer[i] = null;
                 break;
+            }
+
+        }
+
+
+        //on compte les de  qui son reste
+        int derestant = 0;
+        for (int i = 0; i < 3; i++) {
+
+            if(desTirer[i] != null){
+                derestant++;
             }
         }
 
-        if(totalDe.size() >= 3){
+        if(totalDe.size() + derestant >= 3){
+            tirerDesDeDisponible = true;
+        }else{
+            totalDe.addAll(diceInCaseOfIlyApuDice);
             tirerDesDeDisponible = true;
         }
         lancerDeDeDisponible = false;
@@ -295,8 +322,8 @@ public class GameManager {
 
         //on regarde si 3 fusils à pome ont été roulés
         if(actualJoueur.getShotgun() >= 3){
-            actualJoueur.remettreAzero();  //remet les cerveaux du tour et le nombre de shotgun a zero
             //on donne que la possibilité de passer au joueur suivant
+            actualJoueur.remettreAzeroLesCerveauxDuTour();
             lancerDeDeDisponible = false;
             tirerDesDeDisponible = false;
         }

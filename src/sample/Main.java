@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import view.ControllerGameView;
 import view.ControllerMenu;
 
 import javax.xml.transform.sax.SAXResult;
@@ -18,6 +19,7 @@ public class Main extends Application {
     public static GameManager gameManager;
     public static Stage primarySta;
     public static ControllerMenu controllerMenu;
+    public static ControllerGameView controllerGameView;
 
     @Override
     public void start(Stage primaryStage) throws Exception{

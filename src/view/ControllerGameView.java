@@ -70,11 +70,10 @@ public class ControllerGameView implements Initializable {
     private Timeline timeline;
     private AnimationTimer timer;
 
-    private Dice oldDETirer[];
-
     public ControllerGameView(){
         imageMap = new HashMap<>();
 
+        imageMap.put("deathHead", new Image(new File("ressources/deathHead.png").toURI().toString()));
         imageMap.put("CERVAL", new Image(new File("ressources/brain.png").toURI().toString()));
         imageMap.put("SHOTGUN", new Image(new File("ressources/shotgun.png").toURI().toString()));
         imageMap.put("STEP", new Image(new File("ressources/step.png").toURI().toString()));
@@ -115,11 +114,11 @@ public class ControllerGameView implements Initializable {
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
                         new KeyValue(x, 0),
-                        new KeyValue(y, 0)
+                        new KeyValue(y, 50)
                 ),
                 new KeyFrame(Duration.seconds(0.5),
                         new KeyValue(x, 720),
-                        new KeyValue(y, 100)
+                        new KeyValue(y,0)
                 )
         );
         //timeline.setAutoReverse(true);
@@ -130,45 +129,28 @@ public class ControllerGameView implements Initializable {
             @Override
             public void handle(long now) {
                 GraphicsContext gc = canvas.getGraphicsContext2D();
-                graphicsContext.clearRect(canvas.getWidth()/2-10,
-                        canvas.getHeight()/2-10,
+                graphicsContext.clearRect(canvas.getWidth()/3,
+                        canvas.getHeight()/2-100,
                         canvas.getWidth()/2 + imageMap.get("CERVAL").getWidth(),
                         canvas.getHeight()/2 + imageMap.get("CERVAL").getHeight());
 
-                if(y.doubleValue() < 50){
-                    int xa = (int) (canvas.getWidth()/2);
-                    int yb = (int) (canvas.getHeight()/2);
+                graphicsContext.strokeText("Face obtenue : ",
+                        canvas.getWidth()/3,
+                        canvas.getHeight()/2 + imageMap.get("CERVAL").getHeight()/2);
 
-                    System.out.println(oldDETirer[0].toString());
-                    for (int i = 0; i < gameManager.desTirer.length;i++) {
-                        //Tools.drawRotatedImage(graphicsContext,
-                        //       imageMap.get((Object) oldDETirer[i].toString()), x.doubleValue() ,xa, yb);
-                         //   xa += imageMap.get((Object) oldDETirer[i].toString()).getWidth() * 2;
 
-                        }
-                    }else {
-                    int xa = (int) (canvas.getWidth()/2);
-                    int yb = (int) (canvas.getHeight()/2);
+                int xa = (int) (canvas.getWidth()/2);
+                int yb = (int) (canvas.getHeight()/2);
 
-                    for (FaceDe de: gameManager.faceDes) {
-                        switch (de){
-                            case CERVAL:
-                                Tools.drawRotatedImage(graphicsContext,
-                                        imageMap.get((Object) "CERVAL"), x.doubleValue() ,xa, yb);
-                                break;
-                            case SHOTGUN:
-                                Tools.drawRotatedImage(graphicsContext,
-                                        imageMap.get((Object) "SHOTGUN"), x.doubleValue(), xa , yb);
-                                break;
-                            case STEP:
-                                Tools.drawRotatedImage(graphicsContext,
-                                        imageMap.get((Object) "STEP"), x.doubleValue(), xa , yb);
+                for (FaceDe de: gameManager.faceDes) {
+                    Tools.drawRotatedImage(graphicsContext,
+                            imageMap.get((Object)  de.toString()), x.doubleValue(),
+                            xa + (Math.cos( y.doubleValue()/9) * y.doubleValue()) ,
+                            yb + (Math.sin( y.doubleValue()/9) * y.doubleValue()) );
+                    xa += imageMap.get((Object) "CERVAL").getWidth() * 2;
 
-                        }
-                        xa += imageMap.get((Object) "CERVAL").getWidth() * 2;
-
-                    }
                 }
+
 
 
 
@@ -242,11 +224,21 @@ public class ControllerGameView implements Initializable {
                     y + imageMap.get((Object) "CERVAL").getHeight()/2);
 
             graphicsContext.setStroke(Color.valueOf("#FF9F1C"));
-            for (int i = 0; i < joueur.getShotgun(); i++) {
-                graphicsContext.drawImage(imageMap.get((Object) "redshotgun"),
-                        x + joueur.getNom().length() * 2 + 40 + ((i + 1) * imageMap.get((Object) "redshotgun").getWidth()),
-                        y);
+            if(joueur.getShotgun() >= 3){
+                graphicsContext.drawImage(imageMap.get((Object) "deathHead"),
+                        x + joueur.getNom().length() * 2 + 40 + imageMap.get((Object) "redshotgun").getWidth() * 1.5,
+                        y,
+                        imageMap.get((Object) "redshotgun").getWidth(),
+                        imageMap.get((Object) "redshotgun").getHeight());
 
+            }else{
+
+                for (int i = 0; i < joueur.getShotgun(); i++) {
+                    graphicsContext.drawImage(imageMap.get((Object) "redshotgun"),
+                            x + joueur.getNom().length() * 2 + 40 + ((i + 1) * imageMap.get((Object) "redshotgun").getWidth()),
+                            y);
+
+                }
             }
 
             y += imageMap.get((Object) "CERVAL").getWidth() + 10;
@@ -305,7 +297,6 @@ public class ControllerGameView implements Initializable {
 
         if(gameManager.isTirerDesDeDisponible()){
             gameManager.tirer3De();
-            oldDETirer = gameManager.desTirer;
             displayCanva();
             afficherlesDeTirer();
 
@@ -406,5 +397,6 @@ public class ControllerGameView implements Initializable {
         }
 
     }
+
 
 }

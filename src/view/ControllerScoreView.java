@@ -52,6 +52,8 @@ public class ControllerScoreView implements Initializable {
 
     private GameManager gameManager;
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
