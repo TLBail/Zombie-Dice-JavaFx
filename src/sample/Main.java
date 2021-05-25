@@ -16,12 +16,14 @@ import java.util.List;
 public class Main extends Application {
 
     public static GameManager gameManager;
-
+    public static Stage primarySta;
+    public static ControllerMenu controllerMenu;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
         gameManager = new GameManager();
+        this.primarySta = primaryStage;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/menu.fxml"));
         Parent root = fxmlLoader.load();

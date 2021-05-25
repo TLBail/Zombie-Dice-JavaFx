@@ -16,10 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sample.Difficulte;
-import sample.GameManager;
-import sample.Joueur;
-import sample.Main;
+import sample.*;
 
 import java.io.*;
 import java.net.URL;
@@ -50,8 +47,10 @@ public class ControllerMenu implements Initializable {
 
     private Map<String, Image> imageMap;
     private GraphicsContext graphicsContext;
+    private Difficulte difficulte;
 
     public ControllerMenu(){
+        Main.controllerMenu = this;
         imageMap = new HashMap<>();
         imageMap.put("brain", new Image(new File("ressources/brain.png").toURI().toString()));
         imageMap.put("shotgun", new Image(new File("ressources/shotgun.png").toURI().toString()));
@@ -166,7 +165,6 @@ public class ControllerMenu implements Initializable {
         for (Difficulte diffilcute: Difficulte.values() ) {
             choiceBox.getItems().add(diffilcute.toString());
         }
-
         graphicsContext = canvas.getGraphicsContext2D();
 
         graphicsContext.drawImage(imageMap.get((Object) "greendice"),
@@ -189,31 +187,35 @@ public class ControllerMenu implements Initializable {
 
     private void onSelectDiffilcute(Event event){
 
-        graphicsContext.clearRect(0, canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight(), canvas.getWidth(), canvas.getHeight());
-
-        System.out.println(imageMap.get((Object) "brain").getHeight());
-        graphicsContext.setStroke(Color.WHITE);
 
         if(choiceBox.getValue() != null){
-
             for (Difficulte difficulte: Difficulte.values()   ) {
                 if(difficulte.toString().equals(choiceBox.getValue().toString())){
+                    this.difficulte = difficulte;
                     gameManager.setDifficulte(difficulte);
                     break;
                 }
             }
         }
 
-        graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
-                        canvas.getWidth()/4 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
-                        canvas.getWidth()/2 ,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
-                graphicsContext.strokeText(gameManager.getRemainingYellowDice() + "",
-                        canvas.getWidth()/2 + canvas.getWidth()/4,
-                        canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
+        actualiserNbDice();
 
+
+    }
+
+    public void actualiserNbDice(){
+        graphicsContext.clearRect(0, canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight(), canvas.getWidth(), canvas.getHeight());
+        graphicsContext.setStroke(Color.WHITE);
+
+        graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
+                canvas.getWidth()/4 ,
+                canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
+        graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
+                canvas.getWidth()/2 ,
+                canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
+        graphicsContext.strokeText(gameManager.getRemainingYellowDice() + "",
+                canvas.getWidth()/2 + canvas.getWidth()/4,
+                canvas.getHeight()/8 + imageMap.get((Object) "brain").getHeight() * 1.5);
 
     }
 

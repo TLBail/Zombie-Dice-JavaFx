@@ -1,3 +1,13 @@
+@font-face {
+    font-family: ZOMBIESREBORN;
+    src: url('ZOMBIESREBORN.ttf');
+}
+
+.label {
+    -fx-font-family: "ZOMBIES REBORN";
+}
+
+
 .button{
     -fx-font-family: "Liberation Mono";
     -fx-background-color: #354445;
@@ -102,8 +112,9 @@ list view
     -fx-mark-color: #FF9F1C;
 }
 
-  .choice-box > .label {
+  .choice-box .label {
        -fx-text-fill: #FF9F1C;
+      -fx-font-family: "Liberation Mono";
   }
 
   .choice-box .menu-item {
@@ -122,3 +133,6 @@ list view
 
   }
 
+.choice-box .context-menu {
+    -fx-background-color: #354546;
+}

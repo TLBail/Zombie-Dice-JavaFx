@@ -1,11 +1,14 @@
 package sample;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +35,34 @@ public class GameManager {
     private boolean lancerDeDeDisponible;
     private boolean tirerDesDeDisponible;
 
+    private int nbPersonalizedGrenneDice;
+    private int nbPersonalizedRedDice;
+    private int getNbPersonalizedYellowDice;
+
+    private int comboOfActualjoueur;
+
     public boolean isLancerDeDeDisponible() {
         return lancerDeDeDisponible;
     }
 
     public boolean isTirerDesDeDisponible() {
         return tirerDesDeDisponible;
+    }
+
+    public void setPersonlizedNumberOfDice(int nb, List<FaceDe> faceDes){
+        for (int i = 0; i < nb; i++) {
+            totalDe.add(new Dice(faceDes));
+        }
+        if(faceDes == Dice.REDDICEFACES){
+            nbPersonalizedRedDice = nb;
+        }
+        if(faceDes == Dice.YELLOWDICEFACES){
+            getNbPersonalizedYellowDice = nb;
+        }
+        if(faceDes == Dice.GREENDICEFACES){
+            nbPersonalizedGrenneDice = nb;
+        }
+
     }
 
 
@@ -53,6 +78,12 @@ public class GameManager {
         tirerDesDeDisponible = true;
 
         totalDe = new ArrayList<>();
+
+        nbPersonalizedRedDice = 0;
+        nbPersonalizedGrenneDice = 0;
+        getNbPersonalizedYellowDice = 0;
+
+        comboOfActualjoueur = 0;
     }
 
     public void setActualJoueur(Joueur actualJoueur) {
@@ -91,6 +122,7 @@ public class GameManager {
     }
 
     public void setDifficulte(Difficulte difficulte) {
+
         totalDe = new ArrayList<>();
         this.difficulte = difficulte;
         int greenDice, yellowDice, redDice;
@@ -104,6 +136,23 @@ public class GameManager {
                 greenDice = 4;
                 redDice = 5;
                 yellowDice = 4;
+                break;
+            case PERSONALISE:
+                if(nbPersonalizedRedDice != 0 && nbPersonalizedGrenneDice != 0 && getNbPersonalizedYellowDice != 0){
+                    greenDice = nbPersonalizedGrenneDice;
+                    redDice = nbPersonalizedRedDice;
+                    yellowDice = getNbPersonalizedYellowDice;
+                    System.out.println(nbPersonalizedGrenneDice);
+
+                }else{
+                    windowNewDice("De vert", Dice.GREENDICEFACES);
+                    windowNewDice("De Jaunne", Dice.YELLOWDICEFACES);
+                    windowNewDice("De rouge", Dice.REDDICEFACES);
+
+                    greenDice = 0;
+                    redDice = 0;
+                    yellowDice = 0;
+                }
                 break;
             default: //case NORMAL ou autre
                 greenDice = 6;
@@ -123,17 +172,65 @@ public class GameManager {
         }
     }
 
+    private void windowNewDice(String typeDe, List<FaceDe> faceDes){
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Second Stage");
+
+
+        Label secondLabel = new Label(typeDe);
+
+        final Spinner<Integer> spinner = new Spinner<Integer>();
+
+        final int initialValue = 3;
+
+        // Value factory.
+        SpinnerValueFactory<Integer> valueFactory = //
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, initialValue);
+
+        spinner.setValueFactory(valueFactory);
+
+        Button button = new Button("validé");
+        button.setOnAction(event -> {
+            Main.gameManager.setPersonlizedNumberOfDice(spinner.getValue(), faceDes);
+            Main.controllerMenu.actualiserNbDice();
+            newWindow.close();
+        });
+
+
+        AnchorPane secondaryLayout = new AnchorPane();
+        secondaryLayout.getChildren().addAll(secondLabel, spinner, button);
+
+
+        AnchorPane.setLeftAnchor(secondLabel, 50d);
+        AnchorPane.setRightAnchor(secondLabel, 50d);
+        AnchorPane.setTopAnchor(spinner, 50d);
+        AnchorPane.setTopAnchor(button, 80d);
+        AnchorPane.setLeftAnchor(spinner, 10d);
+        AnchorPane.setRightAnchor(spinner, 10d);
+        AnchorPane.setRightAnchor(button, 10d);
+        AnchorPane.setLeftAnchor(button, 10d);
+        Scene secondScene = new Scene(secondaryLayout, 230, 120);
+
+        newWindow.setScene(secondScene);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(Main.primarySta.getX() +400 );
+        newWindow.setY(Main.primarySta.getY() + 200);
+
+        newWindow.show();
+    }
+
+
     public void tirer3De(){
 
-
-
-        //todo penser a rajouter les de jaune dans la list
         //on tire 3 de
         if(totalDe.size() >= 3) {
             for (int i = 0; i < 3; i++) {
-                desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
-                totalDe.remove(desTirer[i]);
-
+                if(desTirer[i] == null){
+                    desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
+                    totalDe.remove(desTirer[i]);
+                }
             }
             lancerDeDeDisponible = true;
 
@@ -160,7 +257,7 @@ public class GameManager {
         //remise a zero des variable
         setDifficulte(difficulte);
         tirerDesDeDisponible = true;
-
+        comboOfActualjoueur = 0;
 
     }
 
@@ -175,10 +272,11 @@ public class GameManager {
         //on jete 3 de
         for (int i = 0; i < 3; i++) {
             faceDes[i] = desTirer[i].getFaceDeLancer();
+            desTirer[i] = null;
             switch (faceDes[i]){
                 case STEP:
-                    totalDe.add(new Dice(Dice.YELLOWDICEFACES));
-                break;
+                    desTirer[i] = new Dice(Dice.YELLOWDICEFACES);
+                    break;
                 case CERVAL:
                     actualJoueur.ajoutCerveaux();
                 break;
@@ -201,6 +299,11 @@ public class GameManager {
             //on donne que la possibilité de passer au joueur suivant
             lancerDeDeDisponible = false;
             tirerDesDeDisponible = false;
+        }
+
+        comboOfActualjoueur++;
+        if(comboOfActualjoueur > actualJoueur.getNbLancerSuccesif()){
+            actualJoueur.setNbLancerSuccesif(comboOfActualjoueur);
         }
 
 

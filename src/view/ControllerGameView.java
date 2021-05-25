@@ -1,5 +1,11 @@
 package view;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sample.*;
 
 import java.io.File;
@@ -49,6 +56,10 @@ public class ControllerGameView implements Initializable {
     private Button tirageDeButton;
 
 
+    public static final double W = 200; // canvas dimensions.
+    public static final double H = 200;
+
+    public static final double D = 20;  // diameter.
 
 
     private ObservableList cervels;
@@ -56,7 +67,10 @@ public class ControllerGameView implements Initializable {
     private GraphicsContext graphicsContext;
 
     private Map<String, Image> imageMap;
+    private Timeline timeline;
+    private AnimationTimer timer;
 
+    private TypeDe oldDETirer[];
 
     public ControllerGameView(){
         imageMap = new HashMap<>();
@@ -90,11 +104,81 @@ public class ControllerGameView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         gameManager = Main.gameManager;
         joueurs = (ObservableList<Joueur>) gameManager.joueurList;
+
+
         graphicsContext = canvas.getGraphicsContext2D();
+
+        DoubleProperty x  = new SimpleDoubleProperty();
+        DoubleProperty y  = new SimpleDoubleProperty();
+
+
+        timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(x, 0),
+                        new KeyValue(y, 0)
+                ),
+                new KeyFrame(Duration.seconds(0.3),
+                        new KeyValue(x, 800),
+                        new KeyValue(y, 100)
+                )
+        );
+        //timeline.setAutoReverse(true);
+        //timeline.setCycleCount(Timeline.INDEFINITE);
+
+        final Canvas canvas = graphicsContext.getCanvas();
+         timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+                graphicsContext.clearRect(canvas.getWidth()/2-10,
+                        canvas.getHeight()/2-10,
+                        canvas.getWidth()/2 + imageMap.get("CERVAL").getWidth(),
+                        canvas.getHeight()/2 + imageMap.get("CERVAL").getHeight());
+
+                if(y.doubleValue() < 50){
+                    int xa = (int) (canvas.getWidth()/2);
+                    int yb = (int) (canvas.getHeight()/2);
+
+                    for (int i = 0; i < gameManager.desTirer.length;i++) {
+                        //Tools.drawRotatedImage(graphicsContext,
+                          //      imageMap.get((Object) gameManager.desTirer[i].toString()), x.doubleValue() ,xa, yb);
+                            //xa += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
+
+                        }
+                    }else {
+                    int xa = (int) (canvas.getWidth()/2);
+                    int yb = (int) (canvas.getHeight()/2);
+
+                    for (FaceDe de: gameManager.faceDes) {
+                        switch (de){
+                            case CERVAL:
+                                Tools.drawRotatedImage(graphicsContext,
+                                        imageMap.get((Object) "CERVAL"), x.doubleValue() ,xa, yb);
+                                break;
+                            case SHOTGUN:
+                                Tools.drawRotatedImage(graphicsContext,
+                                        imageMap.get((Object) "SHOTGUN"), x.doubleValue(), xa , yb);
+                                break;
+                            case STEP:
+                                Tools.drawRotatedImage(graphicsContext,
+                                        imageMap.get((Object) "STEP"), x.doubleValue(), xa , yb);
+
+                        }
+                        xa += imageMap.get((Object) "CERVAL").getWidth() * 2;
+
+                    }
+                }
+
+
+
+
+            }
+        };
 
         displayCanva();
 
         opacitiButton();
+
 
 
 
@@ -121,6 +205,8 @@ public class ControllerGameView implements Initializable {
         displayRemainingDice();
 
 
+        timer.stop();
+        timeline.stop();
 
     }
 
@@ -172,6 +258,8 @@ public class ControllerGameView implements Initializable {
     }
 
     private void displayDice(){
+
+        /*
         int x = (int) (canvas.getWidth()/2);
         int y = (int) (canvas.getHeight()/2);
 
@@ -190,6 +278,9 @@ public class ControllerGameView implements Initializable {
             x += imageMap.get((Object) "CERVAL").getWidth() * 2;
 
         }
+        */
+        timer.start();
+        timeline.play();
 
 
     }
@@ -205,10 +296,12 @@ public class ControllerGameView implements Initializable {
 
         }
         opacitiButton();
+
     }
 
     @FXML
     void onTirerDe(ActionEvent event){
+
         if(gameManager.isTirerDesDeDisponible()){
 
             gameManager.tirer3De();
@@ -310,10 +403,6 @@ public class ControllerGameView implements Initializable {
             x += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
 
         }
-
-
-        x = (int) (canvas.getWidth()/2 + imageMap.get((Object) "CERVAL").getWidth());
-        y = (int) (canvas.getHeight()/2 -  imageMap.get((Object) "CERVAL").getWidth());
 
     }
 

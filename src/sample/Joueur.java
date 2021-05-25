@@ -1,6 +1,8 @@
 package sample;
 
-public class Joueur {
+import java.io.Serializable;
+
+public class Joueur implements Comparable<Joueur>, Serializable {
 
     private String nom;
 
@@ -38,6 +40,14 @@ public class Joueur {
         cerveauxDuTour++;
     }
 
+    public void setNbLancerSuccesif(int nbLancerSuccesif) {
+        this.nbLancerSuccesif = nbLancerSuccesif;
+    }
+
+    public void setNbTourSaute(int nbTourSaute) {
+        this.nbTourSaute = nbTourSaute;
+    }
+
     @Override
     public String toString() {
         return "joueur : " + nom;
@@ -63,6 +73,9 @@ public class Joueur {
         shotgun++;
     }
 
-
+    @Override
+    public int compareTo(Joueur emp) {
+        return (this.cerveauxTotal - emp.cerveauxTotal);
+    }
 
 }
