@@ -18,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -32,6 +33,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class ControllerGameView implements Initializable {
 
@@ -54,6 +56,9 @@ public class ControllerGameView implements Initializable {
     private Button joueurSuivantButton;
     @FXML
     private Button tirageDeButton;
+
+    @FXML
+    private ToggleButton autoToggleButton;
 
 
     public static final double W = 200; // canvas dimensions.
@@ -287,6 +292,9 @@ public class ControllerGameView implements Initializable {
             displayCanva();
             displayDice();
 
+            if(autoToggleButton.isSelected() && !gameManager.isTirerDesDeDisponible()){
+                onJoueurSuivant(null);
+            }
         }
         opacitiButton();
 
@@ -300,8 +308,13 @@ public class ControllerGameView implements Initializable {
             displayCanva();
             afficherlesDeTirer();
 
+            if(autoToggleButton.isSelected() && gameManager.isLancerDeDeDisponible()){
+                onLancerDe(null);
+            }
         }
         opacitiButton();
+
+
     }
 
     @FXML
@@ -388,12 +401,21 @@ public class ControllerGameView implements Initializable {
         graphicsContext.strokeText("De tirer : ", x - new String("De tirer").length() * 5, y);
 
 
-
-
         for (int i = 0; i < gameManager.desTirer.length;i++) {
             graphicsContext.drawImage(imageMap.get((Object) gameManager.desTirer[i].toString()), x ,y);
             x += imageMap.get((Object) gameManager.desTirer[i].toString()).getWidth() * 2;
 
+        }
+
+    }
+
+    @FXML
+    void onAutoClick(ActionEvent event){
+        if(autoToggleButton.isSelected()){
+            autoToggleButton.setText("auto : activé");
+
+        }else{
+            autoToggleButton.setText("auto : desactivé");
         }
 
     }

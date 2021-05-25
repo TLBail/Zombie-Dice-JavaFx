@@ -231,19 +231,30 @@ public class GameManager {
 
     public void tirer3De(){
 
-        //on tire 3 de
-        if(totalDe.size() >= 3) {
-            for (int i = 0; i < 3; i++) {
-                if(desTirer[i] == null){
-                    desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
-                    totalDe.remove(desTirer[i]);
-                }
+        for (Dice de: totalDe
+             ) {
+            if(de == null){
+                System.err.println("un des de est null");
             }
-            lancerDeDeDisponible = true;
-
         }
+
+        //on tire 3 de
+        for (int i = 0; i < 3; i++) {
+            if(desTirer[i] == null){
+                do{
+                    desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
+                }while(desTirer[i] == null);
+                totalDe.remove(desTirer[i]);
+            }
+        }
+        lancerDeDeDisponible = true;
         tirerDesDeDisponible = false;
 
+        for (int i = 0; i <3; i++) {
+            if(desTirer[i] == null){
+                System.err.println("err un des de est null");
+            }
+        }
 
     }
 

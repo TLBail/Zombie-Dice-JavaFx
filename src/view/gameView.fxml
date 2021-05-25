@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="510.0" prefWidth="1011.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerGameView">
+<AnchorPane prefHeight="510.0" prefWidth="1011.0" style="-fx-background-color: #3E4E50;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControllerGameView">
    <children>
       <StackPane prefHeight="510.0" prefWidth="1020.0">
          <children>
@@ -23,6 +21,7 @@
                   <Button fx:id="jetDeButton" layoutX="849.0" layoutY="448.0" mnemonicParsing="false" onAction="#onLancerDe" stylesheets="@style.css" text="Lancer Les dés" />
                   <Button fx:id="tirageDeButton" layoutX="711.0" layoutY="448.0" mnemonicParsing="false" onAction="#onTirerDe" prefHeight="25.0" prefWidth="117.0" stylesheets="@style.css" text="Tirer 3 dés" />
                   <Button fx:id="joueurSuivantButton" layoutX="494.0" layoutY="448.0" mnemonicParsing="false" onAction="#onJoueurSuivant" stylesheets="@style.css" text="passer au joueur suivant" />
+                  <ToggleButton fx:id="autoToggleButton" layoutX="362.0" layoutY="448.0" mnemonicParsing="false" onAction="#onAutoClick" stylesheets="@style.css" text="auto : desactivé" />
                </children>
             </AnchorPane>
          </children>

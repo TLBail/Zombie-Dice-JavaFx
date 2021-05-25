@@ -136,3 +136,12 @@ list view
 .choice-box .context-menu {
     -fx-background-color: #354546;
 }
+
+.toggle-button {
+    -fx-background-color: #354546;
+    -fx-text-fill: #FF9F1C;
+}
+.toggle-button:selected {
+    -fx-background-color: #232E2F;
+
+}
