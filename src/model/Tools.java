@@ -1,10 +1,11 @@
-package sample;
+package model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-public class CanvaTools {
+public class Tools {
 
     public static void drawRotatedImage(GraphicsContext gc, Image image,
                                         double angle, double tlpx, double tlpy) {
@@ -31,6 +32,13 @@ public class CanvaTools {
                 r.getTx(), r.getTy());
     }
 
+
+    public static boolean colid(Rectangle r1, Rectangle r2){
+        if(r1.getX() + r1.getWidth() < r2.getX() || r1.getY() + r1.getHeight() < r2.getY() || r1.getX() > r2.getX() + r2.getWidth() || r1.getY() > r2.getY() + r2.getHeight())
+            return false;
+        return true;
+
+    }
 
 
 }

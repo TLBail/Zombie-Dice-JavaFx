@@ -1,18 +1,12 @@
-package sample;
+package model;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import view.ControllerGameView;
 import view.ControllerMenu;
-
-import javax.xml.transform.sax.SAXResult;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
 

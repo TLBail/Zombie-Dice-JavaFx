@@ -12,7 +12,6 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/../PtutS2Grp12/.jdk/javafx-sdk-15.0.1/lib/javafx.swing.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../PtutS2Grp12/.jdk/javafx-sdk-15.0.1/lib/javafx.controls.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../PtutS2Grp12/.jdk/javafx-sdk-15.0.1/lib/javafx.graphics.jar" path-in-jar="/" />
-      <element id="library" level="project" name="lib" />
     </root>
   </artifact>
 </component>

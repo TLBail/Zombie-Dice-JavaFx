@@ -1,4 +1,4 @@
-package sample;
+package model;
 
 public enum Difficulte {
     FACILE,

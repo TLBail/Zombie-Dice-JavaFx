@@ -16,7 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sample.*;
+import model.*;
 
 import java.io.*;
 import java.net.URL;
