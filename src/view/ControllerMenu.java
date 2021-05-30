@@ -13,12 +13,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.*;
 
+import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +55,12 @@ public class ControllerMenu implements Initializable {
     public ControllerMenu(){
         Main.controllerMenu = this;
         imageMap = new HashMap<>();
-        imageMap.put("brain", new Image(new File("ressources/brain.png").toURI().toString()));
-        imageMap.put("shotgun", new Image(new File("ressources/shotgun.png").toURI().toString()));
-        imageMap.put("step", new Image(new File("ressources/step.png").toURI().toString()));
-        imageMap.put("reddice", new Image(new File("ressources/reddice.png").toURI().toString()));
-        imageMap.put("yellowdice", new Image(new File("ressources/yellowdice.png").toURI().toString()));
-        imageMap.put("greendice", new Image(new File("ressources/greendice.png").toURI().toString()));
+        imageMap.put("brain", new Image("/ressources/brain.png"));
+        imageMap.put("shotgun", new Image("/ressources/shotgun.png"));
+        imageMap.put("step", new Image("/ressources/step.png"));
+        imageMap.put("reddice", new Image("/ressources/reddice.png"));
+        imageMap.put("yellowdice", new Image("/ressources/yellowdice.png"));
+        imageMap.put("greendice", new Image("/ressources/greendice.png"));
 
     }
 
@@ -94,6 +97,7 @@ public class ControllerMenu implements Initializable {
             }
 
             joueurs.add(new Joueur(nomJoueurTextField.getText()));
+            nomJoueurTextField.setText("");
 
         }
 
@@ -235,6 +239,17 @@ public class ControllerMenu implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    void onVoirRègleClick(ActionEvent event){
+        try {
+            Desktop.getDesktop().browse(new URL("http://www.sjgames.com/dice/zombiedice/").toURI());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 

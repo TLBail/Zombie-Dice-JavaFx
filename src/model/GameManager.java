@@ -36,7 +36,7 @@ public class GameManager {
 
     private int nbPersonalizedGrenneDice;
     private int nbPersonalizedRedDice;
-    private int getNbPersonalizedYellowDice;
+    private int nbPersonalizedYellowDice;
 
     private int comboOfActualjoueur;
 
@@ -50,18 +50,27 @@ public class GameManager {
         return tirerDesDeDisponible;
     }
 
-    public void setPersonlizedNumberOfDice(int nb, List<FaceDe> faceDes){
-        for (int i = 0; i < nb; i++) {
-            totalDe.add(new Dice(faceDes));
-        }
-        if(faceDes == Dice.REDDICEFACES){
+    public void setPersonlizedNumberOfDice(int nb, TypeDe typeDe){
+        if(TypeDe.RED == typeDe){
             nbPersonalizedRedDice = nb;
+            for (int i = 0; i < nb; i++) {
+                totalDe.add(new Dice(Dice.REDDICEFACES));
+            }
+
         }
-        if(faceDes == Dice.YELLOWDICEFACES){
-            getNbPersonalizedYellowDice = nb;
+        if(TypeDe.YELLOW == typeDe){
+            nbPersonalizedYellowDice = nb;
+            for (int i = 0; i < nb; i++) {
+                totalDe.add(new Dice(Dice.YELLOWDICEFACES));
+            }
+
         }
-        if(faceDes == Dice.GREENDICEFACES){
+        if(TypeDe.GREEN == typeDe){
             nbPersonalizedGrenneDice = nb;
+            for (int i = 0; i < nb; i++) {
+                totalDe.add(new Dice(Dice.GREENDICEFACES));
+            }
+
         }
 
     }
@@ -82,7 +91,7 @@ public class GameManager {
 
         nbPersonalizedRedDice = 0;
         nbPersonalizedGrenneDice = 0;
-        getNbPersonalizedYellowDice = 0;
+        nbPersonalizedYellowDice = 0;
 
         comboOfActualjoueur = 0;
 
@@ -141,17 +150,18 @@ public class GameManager {
                 yellowDice = 4;
                 break;
             case PERSONALISE:
-                if(nbPersonalizedRedDice != 0 && nbPersonalizedGrenneDice != 0 && getNbPersonalizedYellowDice != 0){
+                if(nbPersonalizedRedDice != 0 && nbPersonalizedGrenneDice != 0 && nbPersonalizedYellowDice != 0){
                     greenDice = nbPersonalizedGrenneDice;
                     redDice = nbPersonalizedRedDice;
-                    yellowDice = getNbPersonalizedYellowDice;
+                    yellowDice = nbPersonalizedYellowDice;
                     System.out.println(nbPersonalizedGrenneDice);
 
                 }else{
-                    windowNewDice("De vert", Dice.GREENDICEFACES);
-                    windowNewDice("De Jaunne", Dice.YELLOWDICEFACES);
-                    windowNewDice("De rouge", Dice.REDDICEFACES);
+                    windowNewDice(TypeDe.GREEN);
+                    windowNewDice(TypeDe.YELLOW);
+                    windowNewDice(TypeDe.RED);
 
+                    //on set juste les  valeur par défault
                     greenDice = 0;
                     redDice = 0;
                     yellowDice = 0;
@@ -175,13 +185,14 @@ public class GameManager {
         }
     }
 
-    private void windowNewDice(String typeDe, List<FaceDe> faceDes){
+    //méthode qui affiche une fenêtre pour choisir le type du de
+    private void windowNewDice( TypeDe typeDe){
         // New window (Stage)
         Stage newWindow = new Stage();
         newWindow.setTitle("Second Stage");
 
 
-        Label secondLabel = new Label(typeDe);
+        Label secondLabel = new Label("Dé : " + typeDe.toString());
 
         final Spinner<Integer> spinner = new Spinner<Integer>();
 
@@ -195,7 +206,7 @@ public class GameManager {
 
         Button button = new Button("validé");
         button.setOnAction(event -> {
-            Main.gameManager.setPersonlizedNumberOfDice(spinner.getValue(), faceDes);
+            Main.gameManager.setPersonlizedNumberOfDice(spinner.getValue(), typeDe);
             Main.controllerMenu.actualiserNbDice();
             newWindow.close();
         });
@@ -227,15 +238,9 @@ public class GameManager {
 
     public void tirer3De(){
 
-        for (Dice de: totalDe
-             ) {
-            if(de == null){
-                System.err.println("un des de est null");
-            }
-        }
-
         //on tire 3 de
         for (int i = 0; i < 3; i++) {
+            //on tire un nouveau dé que si on n'a pas eu de face emprunte et donc que le dé est donc resté
             if(desTirer[i] == null){
                 do{
                     desTirer[i] = totalDe.get((int) (Math.random() * totalDe.size()));
@@ -246,6 +251,7 @@ public class GameManager {
         lancerDeDeDisponible = true;
         tirerDesDeDisponible = false;
 
+        //on vérifie que il n'y a pas de dé null
         for (int i = 0; i <3; i++) {
             if(desTirer[i] == null){
                 System.err.println("err un des de est null");
@@ -273,9 +279,6 @@ public class GameManager {
         tirerDesDeDisponible = true;
         comboOfActualjoueur = 0;
         diceInCaseOfIlyApuDice.clear();
-
-
-        //on check si un des joueur a plus de 13 cerval
 
 
     }
@@ -317,6 +320,7 @@ public class GameManager {
             }
         }
 
+
         if(totalDe.size() + derestant >= 3){
             tirerDesDeDisponible = true;
         }else{
@@ -327,20 +331,20 @@ public class GameManager {
 
 
 
-        //on regarde si 3 fusils à pome ont été roulés
+        //on regarde si 3 fusils à pompe ont été roulés
         if(actualJoueur.getShotgun() >= 3){
             //on donne que la possibilité de passer au joueur suivant
             actualJoueur.remettreAzeroLesCerveauxDuTour();
             lancerDeDeDisponible = false;
             tirerDesDeDisponible = false;
+        }else{
+
+            //on actualise le combo
+            comboOfActualjoueur++;
+            if(comboOfActualjoueur > actualJoueur.getNbLancerSuccesif()){
+                actualJoueur.setNbLancerSuccesif(comboOfActualjoueur);
+            }
         }
-
-        comboOfActualjoueur++;
-        if(comboOfActualjoueur > actualJoueur.getNbLancerSuccesif()){
-            actualJoueur.setNbLancerSuccesif(comboOfActualjoueur);
-        }
-
-
     }
 
 }

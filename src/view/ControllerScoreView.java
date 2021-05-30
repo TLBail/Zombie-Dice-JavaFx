@@ -56,8 +56,8 @@ public class ControllerScoreView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        Media openingmedia = new Media(new File(OPENINGVIDEOPATH).toURI().toString());
-        Media loopmedia = new Media(new File(LOOPVIDEOPATH).toURI().toString());
+        Media openingmedia = new Media(getClass().getClassLoader().getResource(OPENINGVIDEOPATH).toExternalForm());
+        Media loopmedia = new Media(getClass().getClassLoader().getResource(LOOPVIDEOPATH).toExternalForm());
 
         MediaPlayer player = new MediaPlayer(openingmedia);
         final MediaView mediaViewfinal = mediaView;

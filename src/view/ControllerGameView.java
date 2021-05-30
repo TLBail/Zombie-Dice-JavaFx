@@ -75,14 +75,14 @@ public class ControllerGameView implements Initializable {
     public ControllerGameView(){
         imageMap = new HashMap<>();
 
-        imageMap.put("deathHead", new Image(new File("ressources/deathHead.png").toURI().toString()));
-        imageMap.put("CERVAL", new Image(new File("ressources/brain.png").toURI().toString()));
-        imageMap.put("SHOTGUN", new Image(new File("ressources/shotgun.png").toURI().toString()));
-        imageMap.put("STEP", new Image(new File("ressources/step.png").toURI().toString()));
-        imageMap.put(TypeDe.RED.toString(), new Image(new File("ressources/reddice.png").toURI().toString()));
-        imageMap.put(TypeDe.YELLOW.toString(), new Image(new File("ressources/yellowdice.png").toURI().toString()));
-        imageMap.put(TypeDe.GREEN.toString(), new Image(new File("ressources/greendice.png").toURI().toString()));
-        imageMap.put("redshotgun", new Image(new File("ressources/redshotgun.png").toURI().toString()));
+        imageMap.put("deathHead", new Image("/ressources/deathHead.png"));
+        imageMap.put("CERVAL", new Image("/ressources/brain.png"));
+        imageMap.put("SHOTGUN", new Image("/ressources/shotgun.png"));
+        imageMap.put("STEP", new Image("/ressources/step.png"));
+        imageMap.put(TypeDe.RED.toString(), new Image("/ressources/reddice.png"));
+        imageMap.put(TypeDe.YELLOW.toString(), new Image("/ressources/yellowdice.png"));
+        imageMap.put(TypeDe.GREEN.toString(), new Image("/ressources/greendice.png"));
+        imageMap.put("redshotgun", new Image("/ressources/redshotgun.png"));
 
     }
 
@@ -123,8 +123,6 @@ public class ControllerGameView implements Initializable {
                         new KeyValue(y,0)
                 )
         );
-        //timeline.setAutoReverse(true);
-        //timeline.setCycleCount(Timeline.INDEFINITE);
 
         final Canvas canvas = graphicsContext.getCanvas();
          timer = new AnimationTimer() {
@@ -136,7 +134,7 @@ public class ControllerGameView implements Initializable {
                         canvas.getWidth()/2 + imageMap.get("CERVAL").getWidth(),
                         canvas.getHeight()/2 + imageMap.get("CERVAL").getHeight());
 
-                graphicsContext.strokeText("Face obtenue : ",
+                graphicsContext.strokeText("Faces obtenues : ",
                         canvas.getWidth()/3,
                         canvas.getHeight()/2 + imageMap.get("CERVAL").getHeight()/2);
 
@@ -153,19 +151,12 @@ public class ControllerGameView implements Initializable {
 
                 }
 
-
-
-
-
             }
         };
 
         displayCanva();
 
         opacitiButton();
-
-
-
 
     }
 
@@ -252,42 +243,22 @@ public class ControllerGameView implements Initializable {
 
     }
 
-    private void displayDice(){
+    private void displayFaceDe(){
 
-        /*
-        int x = (int) (canvas.getWidth()/2);
-        int y = (int) (canvas.getHeight()/2);
-
-        for (FaceDe de: gameManager.faceDes) {
-            switch (de){
-                case CERVAL:
-                    graphicsContext.drawImage(imageMap.get((Object) "CERVAL"), x , y);
-                break;
-                case SHOTGUN:
-                    graphicsContext.drawImage(imageMap.get((Object) "SHOTGUN"), x , y);
-                    break;
-                case STEP:
-                    graphicsContext.drawImage(imageMap.get((Object) "STEP"), x , y);
-
-            }
-            x += imageMap.get((Object) "CERVAL").getWidth() * 2;
-
-        }
-        */
+        //on déclenche l'animation des face des dé voir ligne 115
         timer.start();
         timeline.play();
 
 
     }
 
-    //Todo vrai lancer de de
     @FXML
     void onLancerDe(ActionEvent event){
         if(gameManager.isLancerDeDeDisponible()){
 
             gameManager.lancerDeDe();
             displayCanva();
-            displayDice();
+            displayFaceDe();
 
             if(autoToggleButton.isSelected() && !gameManager.isTirerDesDeDisponible()){
                 onJoueurSuivant(null);
@@ -345,6 +316,7 @@ public class ControllerGameView implements Initializable {
         }
     }
 
+    //rend visible ou non les bouton
     private void opacitiButton(){
         if(!gameManager.isTirerDesDeDisponible()){
             tirageDeButton.setOpacity(0.5f);
@@ -362,7 +334,6 @@ public class ControllerGameView implements Initializable {
     }
 
     private void displayRemainingDice(){
-
         graphicsContext.drawImage(imageMap.get((Object) TypeDe.GREEN.toString()),
                 canvas.getWidth() - imageMap.get((Object) TypeDe.GREEN.toString()).getWidth() * 6,
                 canvas.getHeight()/16);
@@ -372,18 +343,17 @@ public class ControllerGameView implements Initializable {
         graphicsContext.drawImage(imageMap.get((Object) TypeDe.YELLOW.toString()),
                 canvas.getWidth() - imageMap.get((Object) TypeDe.YELLOW.toString()).getWidth() * 2,
                 canvas.getHeight()/16);
-
         graphicsContext.setStroke(Color.valueOf("#FF9F1C"));
 
-        graphicsContext.strokeText("De restant : ", canvas.getWidth() - imageMap.get((Object) "CERVAL").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "CERVAL").getWidth() / 2);
+        graphicsContext.strokeText("Dés restants : ", canvas.getWidth() - imageMap.get((Object) "CERVAL").getWidth() * 8, canvas.getHeight()/16 +  imageMap.get((Object) "CERVAL").getWidth() / 2);
 
-         graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
+        graphicsContext.strokeText(gameManager.getRemainingGreenDice() + "",
                         canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 5.5,
                         canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
-                graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
+        graphicsContext.strokeText(gameManager.getRemainingRedDice() + "",
                         canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 3.5,
                         canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
-                graphicsContext.strokeText(gameManager.getRemainingYellowDice() +"",
+        graphicsContext.strokeText(gameManager.getRemainingYellowDice() +"",
                         canvas.getWidth() - imageMap.get((Object) TypeDe.RED.toString()).getWidth() * 1.5,
                         canvas.getHeight()/16 + imageMap.get((Object) TypeDe.RED.toString()).getHeight() * 1.5);
 
@@ -395,7 +365,7 @@ public class ControllerGameView implements Initializable {
 
         int x = (int) (canvas.getWidth()/2);
         int y = (int) (canvas.getHeight()/2);
-        graphicsContext.strokeText("De tirer : ", x - new String("De tirer").length() * 5, y);
+        graphicsContext.strokeText("Dés tirer : ", x - new String("Dés tirer").length() * 5, y);
 
 
         for (int i = 0; i < gameManager.desTirer.length;i++) {
